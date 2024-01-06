@@ -30,7 +30,7 @@ SECRET_KEY = 'django-insecure-tq9bgcyyh%*z%be^&x^r)g=hg%j8*ymuxilkj_yp&xqd&kc^yf
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['artpulse.herokuapp.com', 'localhost', 'https://artpulse-2c17e5a691a0.herokuapp.com/']
+ALLOWED_HOSTS = ['artpulse.herokuapp.com', 'localhost', 'www.artpulse-2c17e5a691a0.herokuapp.com', '127.0.0.1']
 
 
 # Application definition
@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'home',
+    'artpulse'
 ]
 
 MIDDLEWARE = [
