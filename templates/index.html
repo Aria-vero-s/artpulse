@@ -1,1 +1,49 @@
-it works!
+{% extends 'base.html' %}
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ArtPulse Gallery</title>
+</head>
+<body>
+
+<main>
+    {% for artwork in artworks %}
+        <div class="artwork">
+            <img src="{{ artwork.image.url }}" alt="{{ artwork.title }}">
+            <h2>{{ artwork.title }}</h2>
+            <p>{{ artwork.description }}</p>
+            <p>Category: {{ artwork.category }}</p>
+            <p>Artist: {{ artwork.artist.username }}</p>
+            <p>Rating: {{ artwork.rating }}</p>
+            
+            <form method="post" action="{% url 'rate_artwork' artwork.id %}">
+                {% csrf_token %}
+                <label for="rating">Rate this artwork:</label>
+                <input type="number" name="rating" min="1" max="5" required>
+                <button type="submit">Submit Rating</button>
+            </form>
+
+            <h3>Comments:</h3>
+            <ul>
+                {% for comment in artwork.comments.all %}
+                    <li>{{ comment.user.username }}: {{ comment.text }}</li>
+                {% endfor %}
+            </ul>
+
+            <form method="post" action="{% url 'add_comment' artwork.id %}">
+                {% csrf_token %}
+                <label for="comment">Add a comment:</label>
+                <textarea name="comment" rows="4" cols="50" required></textarea>
+                <button type="submit">Add Comment</button>
+            </form>
+        </div>
+    {% endfor %}
+</main>
+
+</body>
+</html>
+{% endblock %}

@@ -1,0 +1,44 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}ArtPulse Gallery{% endblock %}</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+</head>
+<body>
+
+    <header>
+        <h1>Welcome to ArtPulse Gallery test</h1>
+        <nav>
+            <ul>
+                <li><a href="{% url 'index' %}">Home</a></li>
+                {% if user.is_authenticated %}
+                    <li><a href="{% url 'create_artwork' %}">Create Artwork</a></li>
+                    {% for artwork in artworks %}
+                        <li>
+                            <a href="{% url 'delete_artwork' artwork.id %}">
+                                Delete {{ artwork.title }}
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{% url 'update_artwork' artwork.id %}">
+                                Update {{ artwork.title }}
+                            </a>
+                        </li>
+                    {% endfor %}
+                {% endif %}
+                <!-- Add other navbar links as needed -->
+            </ul>
+        </nav>
+    </header>
+
+<main>
+    {% block content %}
+    {% endblock %}
+</main>
+
+</body>
+</html>
