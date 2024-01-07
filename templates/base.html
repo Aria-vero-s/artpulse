@@ -15,22 +15,9 @@
         <nav>
             <ul>
                 <li><a href="{% url 'index' %}">Home</a></li>
-                {% if user.is_authenticated %}
-                    <li><a href="{% url 'create_artwork' %}">Create Artwork</a></li>
-                    {% for artwork in artworks %}
-                        <li>
-                            <a href="{% url 'delete_artwork' artwork.id %}">
-                                Delete {{ artwork.title }}
-                            </a>
-                        </li>
-                        <li>
-                            <a href="{% url 'update_artwork' artwork.id %}">
-                                Update {{ artwork.title }}
-                            </a>
-                        </li>
-                    {% endfor %}
-                {% endif %}
-                <!-- Add other navbar links as needed -->
+                <li><a href="{% url 'create_artwork' %}">Create Artwork</a></li>
+                <li><a href="{% url 'delete_artwork_list' %}">Delete Artwork</a></li>
+                <li><a href="{% url 'update_artwork_list' %}">Update Artwork</a></li>
             </ul>
         </nav>
     </header>

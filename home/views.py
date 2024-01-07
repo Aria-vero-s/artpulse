@@ -45,10 +45,48 @@ def create_artwork(request):
 
     return render(request, 'create_artwork.html', {'form': form})
 
-@login_required
-def update_artwork(request, artwork_id):
-    artwork = get_object_or_404(Artwork, pk=artwork_id, artist=request.user)
+# @login_required
+# def update_artwork(request, artwork_id):
+#     artwork = get_object_or_404(Artwork, pk=artwork_id, artist=request.user)
 
+#     if request.method == 'POST':
+#         form = ArtworkForm(request.POST, request.FILES, instance=artwork)
+#         if form.is_valid():
+#             form.save()
+#             return redirect('index')
+#     else:
+#         form = ArtworkForm(instance=artwork)
+
+#     return render(request, 'update_artwork.html', {'form': form, 'artwork': artwork})
+
+# @login_required
+# def delete_artwork(request, artwork_id):
+#     artwork = get_object_or_404(Artwork, pk=artwork_id, artist=request.user)
+
+#     if request.method == 'POST':
+#         artwork.delete()
+#         return redirect('index')
+
+#     return render(request, 'delete_artwork.html', {'artwork': artwork})
+
+
+def delete_artwork_list(request):
+    artworks = Artwork.objects.all()
+    return render(request, 'delete_artwork_list.html', {'artworks': artworks})
+
+def delete_artwork(request, artwork_id):
+    artwork = Artwork.objects.get(pk=artwork_id)
+    if request.method == 'POST':
+        artwork.delete()
+        return redirect('index')
+    return render(request, 'delete_artwork.html', {'artwork': artwork})
+
+def update_artwork_list(request):
+    artworks = Artwork.objects.all()
+    return render(request, 'update_artwork_list.html', {'artworks': artworks})
+
+def update_artwork(request, artwork_id):
+    artwork = Artwork.objects.get(pk=artwork_id)
     if request.method == 'POST':
         form = ArtworkForm(request.POST, request.FILES, instance=artwork)
         if form.is_valid():
@@ -58,13 +96,3 @@ def update_artwork(request, artwork_id):
         form = ArtworkForm(instance=artwork)
 
     return render(request, 'update_artwork.html', {'form': form, 'artwork': artwork})
-
-@login_required
-def delete_artwork(request, artwork_id):
-    artwork = get_object_or_404(Artwork, pk=artwork_id, artist=request.user)
-
-    if request.method == 'POST':
-        artwork.delete()
-        return redirect('index')
-
-    return render(request, 'delete_artwork.html', {'artwork': artwork})

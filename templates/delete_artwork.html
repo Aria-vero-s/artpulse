@@ -1,10 +1,13 @@
 {% extends 'base.html' %}
 
+
+
+
 {% block content %}
-  <h2>Delete Artwork</h2>
+  <h2>Delete Artwork - {{ artwork.title }}</h2>
   <p>Are you sure you want to delete "{{ artwork.title }}"?</p>
-  <form method="post">
+  <form method="post" action="{% url 'delete_artwork' artwork.id %}">
     {% csrf_token %}
-    <button type="submit">Delete Artwork</button>
+    <button type="submit">Delete</button>
   </form>
 {% endblock %}
