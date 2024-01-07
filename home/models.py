@@ -3,10 +3,16 @@ from django.contrib.auth.models import User
 from cloudinary.models import CloudinaryField
 
 class Artwork(models.Model):
+    CATEGORY_CHOICES = [
+        ('painting', 'Painting'),
+        ('sculpture', 'Sculpture'),
+        ('digital_art', 'Digital Art'),
+    ]
+
     title = models.CharField(max_length=255)
     description = models.TextField()
     image = models.ImageField(upload_to='artworks/')
-    category = models.CharField(max_length=100)
+    category = models.CharField(max_length=100, choices=CATEGORY_CHOICES)
     artist = models.ForeignKey(User, on_delete=models.CASCADE)
     rating = models.FloatField(default=0)
 
