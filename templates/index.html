@@ -11,15 +11,20 @@
 <body>
 
 <div class="hero-section">
-    <div class="hero-content">
-        <h1>ArtPulse</h1>
-        <p>Discover the beauty of simplicity.</p>
+    <div class="hero-image-container">
+        <h1>Art<br>Pulse</h1>
+        <img src="../static/image.jpeg" alt="Background Image">
+    </div>
+    
+    <!-- Search Form -->
+    <div class="search-form">
         <div class="form-container">
             <form method="get" action="{% url 'search_artworks' %}">
-                <label for="q">Search:</label>
+                <p>Search by name, artist, category and rating</p>
+                <!-- <label for="q"></label> -->
                 <input type="text" id="q" name="q" placeholder="Enter search query">
         
-                <label for="category">Category:</label>
+                <!-- <label for="category"></label> -->
                 <select id="category" name="category">
                   <option value="" selected>All Categories</option>
                   <option value="painting">Painting</option>
@@ -27,49 +32,121 @@
                   <option value="digital_art">Digital Art</option>
                 </select>
         
-                <label for="rating">Rating:</label>
+                <!-- <label for="rating"></label> -->
                 <input type="number" id="rating" name="rating" min="0" max="10" step="0.1" placeholder="Enter rating">
         
                 <button type="submit">Search</button>
             </form>
         </div>
     </div>
+
 </div>
 
-<main>
+<div class="gallery">
+    <div class="artworks-container">
     {% for artwork in artworks %}
         <div class="artwork">
-            <img src="{{ artwork.image.url }}" alt="{{ artwork.title }}">
             <h2>{{ artwork.title }}</h2>
-            <p>{{ artwork.description }}</p>
-            <p>Category: {{ artwork.category }}</p>
             <p>Artist: {{ artwork.artist.username }}</p>
-            <p>Rating: {{ artwork.rating }}</p>
-            
-            <form method="post" action="{% url 'rate_artwork' artwork.id %}">
-                {% csrf_token %}
-                <label for="rating">Rate this artwork:</label>
-                <input type="number" name="rating" min="1" max="5" required>
-                <button type="submit">Submit Rating</button>
-            </form>
+            <img src="{{ artwork.image.url }}" alt="{{ artwork.title }}" onclick="openModal('{{ artwork.image.url }}', '{{ artwork.title }}')">
+            <p>{{ artwork.description }}</p>
 
-            <h3>Comments:</h3>
-            <ul>
-                {% for comment in artwork.comments.all %}
-                    <li>{{ comment.user.username }}: {{ comment.text }}</li>
-                {% endfor %}
-            </ul>
+            <div class="toggle-button">▼ Show More</div>
 
-            <form method="post" action="{% url 'add_comment' artwork.id %}">
-                {% csrf_token %}
-                <label for="comment">Add a comment:</label>
-                <textarea name="comment" rows="4" cols="50" required></textarea>
-                <button type="submit">Add Comment</button>
-            </form>
+            <div class="additional-info" style="display: none;">
+                <p>Category: {{ artwork.category }}</p>
+                <p>Rating: {{ artwork.rating }}</p>
+                
+                <form method="post" action="{% url 'rate_artwork' artwork.id %}">
+                    {% csrf_token %}
+                    <label for="rating">Rate this artwork:</label>
+                    <input type="number" name="rating" min="1" max="5" required>
+                    <button type="submit">Submit Rating</button>
+                </form>
+
+                <h3>Comments:</h3>
+                <ul>
+                    {% for comment in artwork.comments.all %}
+                        <li>{{ comment.user.username }}: {{ comment.text }}</li>
+                    {% endfor %}
+                </ul>
+
+                <form method="post" action="{% url 'add_comment' artwork.id %}">
+                    {% csrf_token %}
+                    <label for="comment">Add a comment:</label>
+                    <textarea name="comment" rows="4" cols="50" required></textarea>
+                    <button type="submit">Add Comment</button>
+                </form>
+            </div>
         </div>
     {% endfor %}
-</main>
+    </div>
+</div>
 
+
+<div id="myModal" class="modal">
+    <span class="close-btn" onclick="closeModal()">&times;</span>
+    <img class="modal-content" id="modalImage">
+</div>
+
+<div class="break"></div>
+
+<div class="background">
+    <div class="project">
+        <h1>The project</h1>
+    </div>
+</div>
+<div class="container">
+    <div class="column">
+        <h2>Search the database</h2>
+        <p>ArtPulse is a gallery of artworks created by users. Users can upload their own artworks, rate other artworks and comment on them.</p>
+    </div>
+
+    <div class="column">
+        <h2>Create an account</h2>
+        <p>Create an account to publish your artwork and connect with artists.</p>
+    </div>
+
+    <div class="column">
+        <h2>Read/write critiques</h2>
+        <p>Improve your skills and review your work by reading peer critiques and leave ratings.</p>
+    </div>
+</div>
+
+<div class="break"></div>
+
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+<script>
+    $(document).ready(function() {
+        $(".toggle-button").click(function() {
+            // Toggle the visibility of the closest ".additional-info"
+            $(this).closest(".artwork").find(".additional-info").toggle();
+    
+            // Change the arrow icon based on visibility
+            $(this).text(function(_, text) {
+                return text === "▼ Show More" ? "▲ Show Less" : "▼ Show More";
+            });
+        });
+    });
+
+    function openModal(imageUrl, altText) {
+        var modal = document.getElementById('myModal');
+        var modalImage = document.getElementById('modalImage');
+
+        modalImage.src = imageUrl;
+        modalImage.alt = altText;
+
+        modal.style.display = 'flex';
+    }
+
+    function closeModal() {
+        var modal = document.getElementById('myModal');
+        modal.style.display = 'none';
+    }
+</script>
 </body>
 </html>
 {% endblock %}
+    
+    

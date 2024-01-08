@@ -1,5 +1,5 @@
 from django import forms
-from .models import Artwork
+from .models import Artwork, UserProfile
 
 class RatingForm(forms.Form):
     rating = forms.IntegerField(min_value=1, max_value=5)
@@ -11,3 +11,8 @@ class ArtworkForm(forms.ModelForm):
     class Meta:
         model = Artwork
         fields = ['title', 'description', 'image', 'category']
+
+class ProfilePictureForm(forms.ModelForm):
+    class Meta:
+        model = UserProfile
+        fields = ['profile_picture']

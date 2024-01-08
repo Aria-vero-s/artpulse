@@ -1,13 +1,58 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
-from .models import Artwork, Comment
+from .models import Artwork, Comment, UserProfile
 from .forms import RatingForm, CommentForm, ArtworkForm
-from django.db.models import Q
+from django.db.models import Q, Count, Avg
+
+from django.utils.decorators import method_decorator
+from django.views import View
+from .forms import ProfilePictureForm
 
 
 def index(request):
     artworks = Artwork.objects.all()
     return render(request, 'index.html', {'artworks': artworks})
+
+
+def account(request):
+    artworks = Artwork.objects.all()
+
+    user_profile = UserProfile.objects.get(user=request.user)
+    artworks = Artwork.objects.filter(artist=request.user)
+
+    total_artworks = artworks.count()
+    average_rating = artworks.aggregate(avg_rating=Avg('rating'))['avg_rating']
+    total_critiques = artworks.filter(comments__isnull=False).count()
+
+    context = {
+        'user': request.user,
+        'user_profile': user_profile,
+        'artworks': artworks,
+        'total_artworks': total_artworks,
+        'average_rating': average_rating,
+        'total_critiques': total_critiques,
+    }
+
+    return render(request, 'account.html', context)
+
+
+@method_decorator(login_required, name='dispatch')
+class ChangeProfilePictureView(View):
+    template_name = 'change_profile_picture.html'  # Create a template for updating profile picture
+
+    def get(self, request, *args, **kwargs):
+        form = ProfilePictureForm()
+        return render(request, self.template_name, {'form': form})
+
+    def post(self, request, *args, **kwargs):
+        form = ProfilePictureForm(request.POST, request.FILES, instance=request.user.userprofile)
+
+        if form.is_valid():
+            form.save()
+            return redirect('account')  # Redirect to the account panel after successful update
+
+        return render(request, self.template_name, {'form': form})
+
 
 def rate_artwork(request, artwork_id):
     artwork = get_object_or_404(Artwork, pk=artwork_id)

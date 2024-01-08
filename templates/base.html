@@ -7,24 +7,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}ArtPulse Gallery{% endblock %}</title>
     <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
 </head>
+
 <body>
+    <nav>
+        <ul>
+            <li><a href="{% url 'index' %}">Home</a></li>
+            <li><a href="{% url 'account' %}">Log in</a></li>
+            <li><a href="http://127.0.0.1:8000/admin/">Sign up</a></li>
+        </ul>
+    </nav>
 
-    <header>
-        <nav>
-            <ul>
-                <li><a href="{% url 'index' %}">Home</a></li>
-                <li><a href="{% url 'create_artwork' %}">Create Artwork</a></li>
-                <li><a href="{% url 'delete_artwork_list' %}">Delete Artwork</a></li>
-                <li><a href="{% url 'update_artwork_list' %}">Update Artwork</a></li>
-            </ul>
-        </nav>
-    </header>
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
 
-<main>
-    {% block content %}
-    {% endblock %}
-</main>
+    <footer>
+        <p>&copy; 2023 ArtPulse</p>
+    </footer>
 
 </body>
 </html>
