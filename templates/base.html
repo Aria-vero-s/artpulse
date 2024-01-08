@@ -12,11 +12,26 @@
 </head>
 
 <body>
+    {% if messages %}
+    <div>
+      <strong>Messages:</strong>
+      <ul>
+        {% for message in messages %}
+        <li>{{message}}</li>
+        {% endfor %}
+      </ul>
+    </div>
+    {% endif %}
     <nav>
         <ul>
             <li><a href="{% url 'index' %}">Home</a></li>
-            <li><a href="{% url 'account' %}">Log in</a></li>
-            <li><a href="http://127.0.0.1:8000/admin/">Sign up</a></li>
+            {% if user.is_authenticated %}
+            <li><a href="{% url 'account_email' %}">Change E-mail</a></li>
+            <li><a href="{% url 'account_logout' %}">Sign Out</a></li>
+            {% else %}
+            <li><a href="{% url 'account_login' %}">Sign In</a></li>
+            <li><a href="{% url 'account_signup' %}">Sign Up</a></li>
+            {% endif %}
         </ul>
     </nav>
 
