@@ -1,110 +1,89 @@
-![CI logo](https://codeinstitute.s3.amazonaws.com/fullstack/ci_logo_small.png)
+# ArtPulse Django Project
 
-Welcome USER_NAME,
+![ArtGallery Logo](/media/mockup.png)
 
-This is the Code Institute student template for Gitpod. We have preinstalled all of the tools you need to get started. It's perfectly ok to use this template as the basis for your project submissions.
+## Introduction
 
-You can safely delete this README.md file, or change it for your own project. Please do read it at least once, though! It contains some important information about Gitpod and the extensions we use. Some of this information has been updated since the video content was created. The last update to this file was: **September 1, 2021**
+This Django project is an ArtGallery platform that allows users to explore, share, and connect with other artists. The website provides a range of features including artwork search functionality, user account management, artwork publication, and interaction through ratings and comments.
 
-## Gitpod Reminders
+## Features
 
-To run a frontend (HTML, CSS, Javascript only) application in Gitpod, in the terminal, type:
+### Navbar and Footer
 
-`python3 -m http.server`
+- The top of each page includes a simple horizontal navbar.
+- The end of each page includes a simple footer.
+- Both the navbar and footer are present on all pages as part of the `base.html` template.
 
-A blue button should appear to click: _Make Public_,
 
-Another blue button should appear to click: _Open Browser_.
+### Artwork Search
 
-To run a backend Python file, type `python3 app.py`, if your Python file is named `app.py` of course.
+- Users can search for artworks using various filters such as title, artist name, description keywords, category, and rating score.
 
-A blue button should appear to click: _Make Public_,
+### Artwork Browsing
 
-Another blue button should appear to click: _Open Browser_.
+- Users can browse artworks published by other users.
+- Users can click on the "show more" button to read details about the artwork, leave a rating score, and add comments.
 
-In Gitpod you have superuser security privileges by default. Therefore you do not need to use the `sudo` (superuser do) command in the bash terminal in any of the lessons.
+### Full-Screen Image View
 
-To log into the Heroku toolbelt CLI:
+- Clicking on an artwork allows users to view the image in full screen.
 
-1. Log in to your Heroku account and go to *Account Settings* in the menu under your avatar.
-2. Scroll down to the *API Key* and click *Reveal*
-3. Copy the key
-4. In Gitpod, from the terminal, run `heroku_config`
-5. Paste in your API key when asked
+### User Authentication
 
-You can now use the `heroku` CLI program - try running `heroku apps` to confirm it works. This API key is unique and private to you so do not share it. If you accidentally make it public then you can create a new one with _Regenerate API Key_.
+- Users must create an account to publish artworks, and leave comments.
 
-------
+### Anonymous Ratings
 
-## Release History
+- Anonymous users can rate artworks but cannot leave comments.
 
-We continually tweak and adjust this template to help give you the best experience. Here is the version history:
+### User Profile Management
 
-**September 20 2023:** Update Python version to 3.9.17.
+- Authenticated users can publish artworks, update or delete them from their account profile.
+- Users can change their profile photo.
+- Users can view their statistics, including total artworks published, average rating, and total comments received.
 
-**September 1 2021:** Remove `PGHOSTADDR` environment variable.
+### Ethos Section
 
-**July 19 2021:** Remove `font_fix` script now that the terminal font issue is fixed.
+- The homepage features an "Ethos" section highlighting the benefits of the website, such as connecting with other artists, sharing artworks, and discovering new artworks and people.
 
-**July 2 2021:** Remove extensions that are not available in Open VSX.
+## UI Design
 
-**June 30 2021:** Combined the P4 and P5 templates into one file, added the uptime script. See the FAQ at the end of this file.
+- The design was created on Figma, inspired by the painting "Icarus" by Henri Matisse. [ArtPulse Figma](https://www.figma.com/file/Dz2mJ6i9WQIjLqTSfUqak9/Untitled?type=design&node-id=0%3A4&mode=design&t=rg41oUqYPTEZzblk-1)
+- Colors for the design were based on the chosen painting.
 
-**June 10 2021:** Added: `font_fix` script and alias to fix the Terminal font issue
+## Technologies Used
 
-**May 10 2021:** Added `heroku_config` script to allow Heroku API key to be stored as an environment variable.
+- Django (Python)
+- JavaScript
+- HTML
+- CSS
+- Git (Version Control)
+- Visual Studio Code (IDE)
+- Cloudinary (Image Management)
+- Heroku (Cloud Deployment)
+- GitHub (Code Repository)
 
-**April 7 2021:** Upgraded the template for VS Code instead of Theia.
+## Getting Started
 
-**October 21 2020:** Versions of the HTMLHint, Prettier, Bootstrap4 CDN and Auto Close extensions updated. The Python extension needs to stay the same version for now.
+1. Clone the repository from GitHub.
+2. Set up a virtual environment and install the required dependencies using `pip3 install -r requirements.txt`.
+3. Apply migrations with `python3 manage.py migrate`.
+4. Set up Cloudinary credentials for image management.
+5. Configure the database settings in `settings.py`.
+6. Run the development server using `python3 manage.py runserver`.
 
-**October 08 2020:** Additional large Gitpod files (`core.mongo*` and `core.python*`) are now hidden in the Explorer, and have been added to the `.gitignore` by default.
+## Deployment
 
-**September 22 2020:** Gitpod occasionally creates large `core.Microsoft` files. These are now hidden in the Explorer. A `.gitignore` file has been created to make sure these files will not be committed, along with other common files.
+The project is designed to be easily deployable on Heroku. Ensure that the necessary environment variables are set, and connect the project to a Heroku app.
 
-**April 16 2020:** The template now automatically installs MySQL instead of relying on the Gitpod MySQL image. The message about a Python linter not being installed has been dealt with, and the set-up files are now hidden in the Gitpod file explorer.
+## Contribution
 
-**April 13 2020:** Added the _Prettier_ code beautifier extension instead of the code formatter built-in to Gitpod.
+If you'd like to contribute to the project, please follow the standard GitHub flow:
 
-**February 2020:** The initialisation files now _do not_ auto-delete. They will remain in your project. You can safely ignore them. They just make sure that your workspace is configured correctly each time you open it. It will also prevent the Gitpod configuration popup from appearing.
+1. Fork the repository.
+2. Create a new branch for your feature or bug fix.
+3. Make changes and submit a pull request.
 
-**December 2019:** Added Eventyret's Bootstrap 4 extension. Type `!bscdn` in a HTML file to add the Bootstrap boilerplate. Check out the <a href="https://github.com/Eventyret/vscode-bcdn" target="_blank">README.md file at the official repo</a> for more options.
+## Acknowledgments
 
-------
-
-## FAQ about the uptime script
-
-**Why have you added this script?**
-
-It will help us to calculate how many running workspaces there are at any one time, which greatly helps us with cost and capacity planning. It will help us decide on the future direction of our cloud-based IDE strategy.
-
-**How will this affect me?**
-
-For everyday usage of Gitpod, it doesn’t have any effect at all. The script only captures the following data:
-
-- An ID that is randomly generated each time the workspace is started.
-- The current date and time
-- The workspace status of “started” or “running”, which is sent every 5 minutes.
-
-It is not possible for us or anyone else to trace the random ID back to an individual, and no personal data is being captured. It will not slow down the workspace or affect your work.
-
-**So….?**
-
-We want to tell you this so that we are being completely transparent about the data we collect and what we do with it.
-
-**Can I opt out?**
-
-Yes, you can. Since no personally identifiable information is being captured, we'd appreciate it if you let the script run; however if you are unhappy with the idea, simply run the following commands from the terminal window after creating the workspace, and this will remove the uptime script:
-
-```
-pkill uptime.sh
-rm .vscode/uptime.sh
-```
-
-**Anything more?**
-
-Yes! We'd strongly encourage you to look at the source code of the `uptime.sh` file so that you know what it's doing. As future software developers, it will be great practice to see how these shell scripts work.
-
----
-
-Happy coding!
+Feel free to explore, contribute, and enjoy the ArtGallery Django project!
