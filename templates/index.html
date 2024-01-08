@@ -54,13 +54,14 @@
             <div class="toggle-button">▼ Show More</div>
 
             <div class="additional-info" style="display: none;">
+                <br>
                 <p>Category: {{ artwork.category }}</p>
                 <p>Rating: {{ artwork.rating }}</p>
                 
                 <form method="post" action="{% url 'rate_artwork' artwork.id %}">
                     {% csrf_token %}
                     <label for="rating">Rate this artwork:</label>
-                    <input type="number" name="rating" min="1" max="5" required>
+                    <input type="number" name="rating" min="1" max="5" placeholder="5" required> /5
                     <button type="submit">Submit Rating</button>
                 </form>
 

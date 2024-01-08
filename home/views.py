@@ -8,6 +8,8 @@ from django.utils.decorators import method_decorator
 from django.views import View
 from .forms import ProfilePictureForm
 
+from allauth.account.views import LogoutView
+
 
 def index(request):
     artworks = Artwork.objects.all()
@@ -166,3 +168,12 @@ def search_artworks(request):
         artworks = artworks.filter(rating__gte=rating)
 
     return render(request, 'index.html', {'artworks': artworks, 'query': query, 'category': category, 'rating': rating})
+
+
+@login_required
+def delete_account(request):
+    if request.method == 'POST':
+        # Perform account deletion logic here
+        # For Django AllAuth, you can use LogoutView to handle account deletion
+        return LogoutView.as_view()(request)
+    return render(request, 'delete_account.html')

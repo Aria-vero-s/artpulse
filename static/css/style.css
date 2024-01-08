@@ -7,10 +7,58 @@
 
 body {
     font-family: 'Montserrat Alternates';
+    color:#4d4d4d;
     background-color: #f0f0f0;
     margin: 0;
     padding: 0;
 }
+
+/* block content */
+
+.content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* messages */
+
+.messages-container {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    width: 300px;
+    z-index: 1000;
+}
+
+.popup-messages {
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    padding: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    position: relative;
+}
+
+.popup-messages .close-button {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background-color: #ddd;
+    border: 1px solid #999;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.popup-messages ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.popup-messages li {
+    margin-bottom: 5px;
+}
+
 
 /* nav */
 
@@ -42,11 +90,8 @@ nav {
 
 h1 {
     font-size: 2.5rem;
-    margin-bottom: 10px;
-}
-
-h2, h3 {
-    color: #4d4d4d;
+    padding-bottom: 20px;
+    padding-top:100px;
 }
 
 h3 {
@@ -54,8 +99,60 @@ h3 {
 }
 
 p {
-    color: #4d4d4d;
     font-size:1rem;
+}
+
+a {
+    text-decoration: none;
+    color: #2e4b9c;
+}
+
+button {
+    background-color: #4d4d4d;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    width: calc(100%);
+}
+
+/* general form styling */
+
+form {
+    font-size: 1rem;
+    font-family: 'Montserrat Alternates';
+}
+
+form label,
+form select,
+form input,
+form button {
+    font-size: 1rem;
+    font-family: 'Montserrat Alternates';
+    text-align: center;
+    min-width:200px;
+    border: none;
+    box-sizing: border-box;
+    outline: none;
+    padding-top:10px;
+    padding-bottom:10px;
+    margin-top:10px;
+    margin-bottom:10px;
+}
+
+#category {
+    padding:0;
+    margin:0;
+    box-sizing: border-box;
+    align-items: center;
+    padding-top:10px;
+    padding-bottom:10px;
+}
+
+textarea {
+    font-size: 1rem;
+    font-family: 'Montserrat Alternates';
+    width: calc(100%);
+    box-sizing: border-box;
 }
 
 /* hero section */
@@ -156,26 +253,8 @@ p {
     margin-top: 10px;
 }
 
-/* artworks comment form */
+/* project ethos section */
 
-form {
-    margin-top: 10px;
-}
-
-textarea {
-    width: calc(100% - 20px);
-    box-sizing: border-box;
-}
-
-button {
-    background-color: #4d4d4d;
-    color: #fff;
-    padding: 5px 10px;
-    border: none;
-    cursor: pointer;
-}
-
-/* project section */
 .project {
     background-color: #f2f2f2;
     text-align: center;
@@ -242,8 +321,6 @@ h2 {
     padding-bottom: 20px;
 }
 
-
-
 /* Search form container styling */
 
 .search-form {
@@ -264,33 +341,23 @@ h2 {
     width:70vw;
 }
 
-/* Styling for labels and form elements */
 .form-container label,
 .form-container input,
 .form-container select,
+.form-container textarea,
 .form-container button {
-    font-family: 'Montserrat Alternates';
-    text-align: center;
-    min-width:200px;
-    color:#4d4d4d;
-    padding: 10px;
-    margin-left: 10px;
-    margin-right: 10px;
-    border: none;
-    box-sizing: border-box;
-    background-color: #d8d4d4;
-    outline: none;
+    width: initial;
+    display: initial;
+    flex-direction: initial;
+    align-items: initial;
 }
-
 .form-container button {
-    cursor: pointer;
     transition: background-color 0.3s ease;
     background-color: #fff047;
 }
 
 .form-container input:hover,
 .form-container select:hover {
-    color: #f0f0f0;
     transition: all 0.3s ease;
 }
 
@@ -300,14 +367,17 @@ h2 {
     transition: all 0.3s ease;
 }
 
+/* footer */
+
 footer {
     background-color: #fff;
-    color: #4d4d4d;
     padding: 80px;
     text-align: center;
     font-size: 0.8rem;
     margin-top: 50px;
 }
+
+/* gallery image full-view */
 
 .gallery {
     display: flex;
@@ -327,6 +397,8 @@ footer {
 .gallery img:hover {
     transform: scale(1.1);
 }
+
+/* modal */
 
 .modal {
     display: none;

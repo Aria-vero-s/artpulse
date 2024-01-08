@@ -12,32 +12,43 @@
 </head>
 
 <body>
-    {% if messages %}
-    <div>
-      <strong>Messages:</strong>
-      <ul>
-        {% for message in messages %}
-        <li>{{message}}</li>
-        {% endfor %}
-      </ul>
+    <div class="messages-container">
+        {% if messages %}
+            <div class="popup-messages">
+                <strong>Messages:</strong>
+                <a class="close-button" onclick="closeMessages()">X</a>
+                <ul>
+                    {% for message in messages %}
+                        <li>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
     </div>
-    {% endif %}
+    
+    <script>
+        function closeMessages() {
+            document.querySelector('.popup-messages').style.display = 'none';
+        }
+    </script>
     <nav>
         <ul>
             <li><a href="{% url 'index' %}">Home</a></li>
             {% if user.is_authenticated %}
-            <li><a href="{% url 'account_email' %}">Change E-mail</a></li>
-            <li><a href="{% url 'account_logout' %}">Sign Out</a></li>
+            <li><a href="{% url 'account' %}">My account</a></li>
+            <li><a href="{% url 'account_logout' %}">Log Out</a></li>
             {% else %}
-            <li><a href="{% url 'account_login' %}">Sign In</a></li>
+            <li><a href="{% url 'account_login' %}">Log In</a></li>
             <li><a href="{% url 'account_signup' %}">Sign Up</a></li>
             {% endif %}
         </ul>
     </nav>
 
     <main>
-        {% block content %}
-        {% endblock %}
+        <div class="content">
+            {% block content %}
+            {% endblock %}
+        </div>
     </main>
 
     <footer>
