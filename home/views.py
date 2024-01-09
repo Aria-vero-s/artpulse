@@ -90,14 +90,22 @@ def rate_artwork(request, artwork_id):
 
     return redirect('artwork_detail', artwork_id=artwork_id)
 
+
 def add_comment(request, artwork_id):
     artwork = get_object_or_404(Artwork, pk=artwork_id)
 
     if request.method == 'POST':
-        form = CommentForm(request.POST)
-        if form.is_valid():
-            comment_text = form.cleaned_data['comment']
-            Comment.objects.create(artwork=artwork, user=request.user, text=comment_text)
+        if request.user.is_authenticated:
+            form = CommentForm(request.POST)
+            if form.is_valid():
+                comment_text = form.cleaned_data['comment']
+                Comment.objects.create(artwork=artwork, user=request.user, text=comment_text)
+                messages.success(request, 'Comment added successfully!')
+            else:
+                messages.error(request, 'Failed to add comment. Please check your input.')
+        else:
+            messages.info(request, 'You need to sign up first to write a comment!')
+            return redirect('account_signup')
 
     return redirect('artwork_detail', artwork_id=artwork_id)
 
