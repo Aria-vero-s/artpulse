@@ -6,6 +6,8 @@
 
 This Django project is an ArtGallery platform that allows users to explore, share, and connect with other artists. The website provides a range of features including artwork search functionality, user account management, artwork publication, and interaction through ratings and comments.
 
+[Live Link](https://artpulse-2c17e5a691a0.herokuapp.com/)
+
 ## Features
 
 ### Navbar and Footer
