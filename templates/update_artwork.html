@@ -5,13 +5,11 @@
 
 {% block content %}
 <div class="center">
-  <div class="artwork">
     <h2>Update Artwork - {{ artwork.title }}</h2>
     <form method="post" enctype="multipart/form-data" action="{% url 'update_artwork' artwork.id %}">
       {% csrf_token %}
       {{ form.as_p }}
       <button type="submit">Update</button>
     </form>
-  </div>
 </div>
 {% endblock %}
