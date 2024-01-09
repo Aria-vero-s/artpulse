@@ -74,9 +74,10 @@
                 </form>
 
                 <h3>Comments:</h3>
-                <ul>
+                <ul style="display:initial;">
                     {% for comment in artwork.comments.all %}
-                        <li><strong>{{ comment.user.username }}</strong>: {{ comment.text }}</li>
+                        <li><strong style="font-weight:bold">{{ comment.user.username }}</strong>: {{ comment.text }}</li>
+                        <br style="margin-bottom:10px;">
                     {% endfor %}
                 </ul>
 

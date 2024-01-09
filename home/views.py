@@ -89,7 +89,7 @@ def rate_artwork(request, artwork_id):
             artwork.rating = (artwork.rating + rating) / 2
             artwork.save()
 
-    return redirect('index')
+    return redirect('artwork_detail', artwork_id=artwork_id)
 
 def add_comment(request, artwork_id):
     artwork = get_object_or_404(Artwork, pk=artwork_id)
@@ -100,7 +100,7 @@ def add_comment(request, artwork_id):
             comment_text = form.cleaned_data['comment']
             Comment.objects.create(artwork=artwork, user=request.user, text=comment_text)
 
-    return redirect('index')
+    return redirect('artwork_detail', artwork_id=artwork_id)
 
 @login_required
 def create_artwork(request):
@@ -110,7 +110,7 @@ def create_artwork(request):
             artwork = form.save(commit=False)
             artwork.artist = request.user
             artwork.save()
-            return redirect('index')
+            return redirect('account')
     else:
         form = ArtworkForm()
 
@@ -125,7 +125,7 @@ def delete_artwork(request, artwork_id):
     artwork = Artwork.objects.get(pk=artwork_id)
     if request.method == 'POST':
         artwork.delete()
-        return redirect('index')
+        return redirect('account')
     return render(request, 'delete_artwork.html', {'artwork': artwork})
 
 def update_artwork_list(request):
@@ -138,7 +138,7 @@ def update_artwork(request, artwork_id):
         form = ArtworkForm(request.POST, request.FILES, instance=artwork)
         if form.is_valid():
             form.save()
-            return redirect('index')
+            return redirect('account')
     else:
         form = ArtworkForm(instance=artwork)
 

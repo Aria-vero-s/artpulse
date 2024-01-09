@@ -43,9 +43,9 @@
 </div>
 
 <div class="gallery">
-    <div class="artworks-container">
+    <div class="artworks-container" id="artworksContainer">
     {% for artwork in artworks %}
-        <div class="artwork">
+        <div class="artwork" style="display: none;">
             <h2>{{ artwork.title }}</h2>
             <p>Artist: <a href="{% url 'user_profile' username=artwork.artist.username %}">{{ artwork.artist.username }}</a></p>
             <img src="{{ artwork.image.url }}" alt="{{ artwork.title }}" onclick="openModal('{{ artwork.image.url }}', '{{ artwork.title }}')">
@@ -58,9 +58,9 @@
             <a href="{% url 'artwork_detail' artwork.id %}" class="read-more">Rate and Comment</a>
         </div>
     {% endfor %}
+    <button id="showMoreButton" onclick="showMore()">Show More</button>
     </div>
 </div>
-
 
 <div id="myModal" class="modal">
     <span class="close-btn" onclick="closeModal()">&times;</span>
