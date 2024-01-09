@@ -28,13 +28,9 @@ TEMPLATES_DIR = os.path.join(BASE_DIR, 'templates')
 SECRET_KEY = os.environ.get('SECRET_KEY', '')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-development = os.environ.get('DEVELOPMENT', True)
-DEBUG = development
+DEBUG = False
 
-if development:
-    ALLOWED_HOSTS = ['localhost', '127.0.0.1']
-else:
-    ALLOWED_HOSTS = [os.environ.get('HEROKU_HOSTNAME'), 'artpulse-2c17e5a691a0.herokuapp.com', '127.0.0.1']
+ALLOWED_HOSTS = [os.environ.get('HEROKU_HOSTNAME'), 'artpulse-2c17e5a691a0.herokuapp.com', 'localhost', '127.0.0.1']
 
 # Application definition
 
