@@ -4,16 +4,39 @@ from .models import Artwork, Comment, UserProfile
 from .forms import RatingForm, CommentForm, ArtworkForm
 from django.db.models import Q, Count, Avg
 
+
 from django.utils.decorators import method_decorator
 from django.views import View
 from .forms import ProfilePictureForm
 
 from allauth.account.views import LogoutView
 
+from django.contrib.auth.models import User
+
 
 def index(request):
     artworks = Artwork.objects.all()
     return render(request, 'index.html', {'artworks': artworks})
+
+
+def user_profile(request, username):
+    user = get_object_or_404(User, username=username)
+    user_profile = get_object_or_404(UserProfile, user=user)
+    
+    artworks = Artwork.objects.filter(artist=user)
+    total_artworks = artworks.count()
+    average_rating = artworks.aggregate(avg_rating=Avg('rating'))['avg_rating']
+    total_critiques = artworks.filter(comments__isnull=False).count()
+
+    context = {
+        'user_profile': user_profile,
+        'artworks': artworks,
+        'total_artworks': total_artworks,
+        'average_rating': average_rating,
+        'total_critiques': total_critiques,
+    }
+
+    return render(request, 'user_profile.html', context)
 
 
 def account(request):
@@ -93,30 +116,6 @@ def create_artwork(request):
 
     return render(request, 'create_artwork.html', {'form': form})
 
-# @login_required
-# def update_artwork(request, artwork_id):
-#     artwork = get_object_or_404(Artwork, pk=artwork_id, artist=request.user)
-
-#     if request.method == 'POST':
-#         form = ArtworkForm(request.POST, request.FILES, instance=artwork)
-#         if form.is_valid():
-#             form.save()
-#             return redirect('index')
-#     else:
-#         form = ArtworkForm(instance=artwork)
-
-#     return render(request, 'update_artwork.html', {'form': form, 'artwork': artwork})
-
-# @login_required
-# def delete_artwork(request, artwork_id):
-#     artwork = get_object_or_404(Artwork, pk=artwork_id, artist=request.user)
-
-#     if request.method == 'POST':
-#         artwork.delete()
-#         return redirect('index')
-
-#     return render(request, 'delete_artwork.html', {'artwork': artwork})
-
 
 def delete_artwork_list(request):
     artworks = Artwork.objects.all()
@@ -177,3 +176,9 @@ def delete_account(request):
         # For Django AllAuth, you can use LogoutView to handle account deletion
         return LogoutView.as_view()(request)
     return render(request, 'delete_account.html')
+
+
+class ArtworkDetailView(View):
+    def get(self, request, artwork_id):
+        artwork = get_object_or_404(Artwork, pk=artwork_id)
+        return render(request, 'artwork_detail.html', {'artwork': artwork})

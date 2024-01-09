@@ -53,37 +53,26 @@
 
 <div class="account-panel">
     <div class="profile-panel">
-        <h2>{{ user.username }}</h2>
+        <h2>{{ user_profile.user.username }}</h2>
     
         {% if user.userprofile.profile_picture %}
-        <img src="{{ user.userprofile.profile_picture.url }}" alt="Profile Picture" class="profile-picture">
+        <img src="{{ user_profile.profile_picture.url }}" alt="Profile Picture" class="profile-picture">
         {% else %}
             <p>No profile picture available</p>
         {% endif %}
     
         <div class="profile-info">
-            <a href="{% url 'change_profile_picture' %}">Change Profile Picture</a>
             <div class="statistics">
-                <p>Your profile: <a href="{% url 'user_profile' username=user.username %}">View Profile</a></p>
                 <p>Total Artworks: {{ total_artworks }}</p>
                 <p>Average Rating: {% if average_rating %}{{ average_rating|floatformat:2 }}{% else %}Not available{% endif %}</p>
                 <p>Total Comments: {{ total_critiques }}</p>
             </div>
         </div>
-
-        <div class="account-links">
-            <li><a href="{% url 'create_artwork' %}">Create Artwork</a></li>
-            <li><a href="{% url 'delete_artwork_list' %}">Delete Artwork</a></li>
-            <li><a href="{% url 'update_artwork_list' %}">Update Artwork</a></li>
-            <li><a href="{% url 'account_email' %}">Change E-mail</a></li>
-            
-            <li><a href="{% url 'delete_account' %}">Delete My Account</a></li>
-        </div>
     </div>
 
     <div class="gallery">
         <div class="artworks-container">
-            {% for artwork in user.artwork_set.all %}
+            {% for artwork in artworks %}
                 <div class="artwork">
                     <h2>{{ artwork.title }}</h2>
                     <p>Artist: {{ artwork.artist.username }}</p>
@@ -103,7 +92,9 @@
         <span class="close-btn" onclick="closeModal()">&times;</span>
         <img class="modal-content" id="modalImage">
     </div>
-    
 </div>
+
+<!-- Back to Gallery link -->
+<a href="{% url 'index' %}">Back to Gallery</a>
 
 {% endblock %}

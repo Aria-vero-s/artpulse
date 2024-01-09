@@ -4,6 +4,7 @@ from . import views
 urlpatterns = [
     path('', views.index, name='index'),
     path('account/', views.account, name='account'),
+     path('profile/<str:username>/', views.user_profile, name='user_profile'),
     path('delete_account/', views.delete_account, name='delete_account'),
     path('change_profile_picture/', views.ChangeProfilePictureView.as_view(), name='change_profile_picture'),
     path('search/', views.search_artworks, name='search_artworks'),
@@ -14,4 +15,5 @@ urlpatterns = [
     path('delete/<int:artwork_id>/', views.delete_artwork, name='delete_artwork'),
     path('delete/', views.delete_artwork_list, name='delete_artwork_list'),
     path('update/', views.update_artwork_list, name='update_artwork_list'),
+    path('artwork/<int:artwork_id>/', views.ArtworkDetailView.as_view(), name='artwork_detail'),
 ]
