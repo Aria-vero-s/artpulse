@@ -61,7 +61,6 @@ This Django project is an ArtGallery platform that allows users to explore, shar
 - CSS
 - Git (Version Control)
 - Visual Studio Code (IDE)
-- Cloudinary (Image Management)
 - Heroku (Cloud Deployment)
 - GitHub (Code Repository)
 
@@ -70,7 +69,6 @@ This Django project is an ArtGallery platform that allows users to explore, shar
 1. Clone the repository from GitHub.
 2. Set up a virtual environment and install the required dependencies using `pip3 install -r requirements.txt`.
 3. Apply migrations with `python3 manage.py migrate`.
-4. Set up Cloudinary credentials for image management.
 5. Configure the database settings in `settings.py`.
 6. Run the development server using `python3 manage.py runserver`.
 
