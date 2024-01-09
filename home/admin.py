@@ -7,3 +7,4 @@ class UserProfileAdmin(admin.ModelAdmin):
 admin.site.register(Artwork)
 admin.site.register(Comment)
 admin.site.register(UserProfile, UserProfileAdmin)
+

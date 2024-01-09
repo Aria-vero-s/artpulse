@@ -4,8 +4,9 @@ from . import views
 urlpatterns = [
     path('', views.index, name='index'),
     path('account/', views.account, name='account'),
-     path('profile/<str:username>/', views.user_profile, name='user_profile'),
+    path('profile/<str:username>/', views.user_profile, name='user_profile'),
     path('delete_account/', views.delete_account, name='delete_account'),
+    path('account_deleted/', views.account_deleted, name='account_deleted'),
     path('change_profile_picture/', views.ChangeProfilePictureView.as_view(), name='change_profile_picture'),
     path('search/', views.search_artworks, name='search_artworks'),
     path('rate/<int:artwork_id>/', views.rate_artwork, name='rate_artwork'),
@@ -13,7 +14,5 @@ urlpatterns = [
     path('create/', views.create_artwork, name='create_artwork'),
     path('update/<int:artwork_id>/', views.update_artwork, name='update_artwork'),
     path('delete/<int:artwork_id>/', views.delete_artwork, name='delete_artwork'),
-    path('delete/', views.delete_artwork_list, name='delete_artwork_list'),
-    path('update/', views.update_artwork_list, name='update_artwork_list'),
     path('artwork/<int:artwork_id>/', views.ArtworkDetailView.as_view(), name='artwork_detail'),
 ]

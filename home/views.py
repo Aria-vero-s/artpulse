@@ -3,15 +3,14 @@ from django.contrib.auth.decorators import login_required
 from .models import Artwork, Comment, UserProfile
 from .forms import RatingForm, CommentForm, ArtworkForm
 from django.db.models import Q, Count, Avg
-
-
 from django.utils.decorators import method_decorator
 from django.views import View
 from .forms import ProfilePictureForm
-
 from allauth.account.views import LogoutView
-
 from django.contrib.auth.models import User
+
+from allauth.account.adapter import get_adapter
+from django.http import HttpResponseRedirect
 
 
 def index(request):
@@ -117,10 +116,6 @@ def create_artwork(request):
     return render(request, 'create_artwork.html', {'form': form})
 
 
-def delete_artwork_list(request):
-    artworks = Artwork.objects.all()
-    return render(request, 'delete_artwork_list.html', {'artworks': artworks})
-
 def delete_artwork(request, artwork_id):
     artwork = Artwork.objects.get(pk=artwork_id)
     if request.method == 'POST':
@@ -128,9 +123,6 @@ def delete_artwork(request, artwork_id):
         return redirect('account')
     return render(request, 'delete_artwork.html', {'artwork': artwork})
 
-def update_artwork_list(request):
-    artworks = Artwork.objects.all()
-    return render(request, 'update_artwork_list.html', {'artworks': artworks})
 
 def update_artwork(request, artwork_id):
     artwork = Artwork.objects.get(pk=artwork_id)
@@ -169,13 +161,36 @@ def search_artworks(request):
     return render(request, 'index.html', {'artworks': artworks, 'query': query, 'category': category, 'rating': rating})
 
 
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, redirect
+from allauth.account.views import LogoutView
+from django.contrib.auth import logout
+from django.contrib import messages
+
 @login_required
 def delete_account(request):
     if request.method == 'POST':
         # Perform account deletion logic here
-        # For Django AllAuth, you can use LogoutView to handle account deletion
-        return LogoutView.as_view()(request)
+        # For example, you might want to deactivate the user account
+        # You can use request.user to access the currently authenticated user
+
+        # Example: Deactivate the user account
+        user = request.user
+        user.is_active = False
+        user.save()
+
+        # Log the user out
+        logout(request)
+
+        # Redirect to a confirmation page or any other appropriate view
+        messages.success(request, 'Your account has been successfully deleted.')
+        return redirect('index')  # Change 'home' to the appropriate URL
+
     return render(request, 'delete_account.html')
+
+
+def account_deleted(request):
+    return render(request, 'account_deleted.html', {})
 
 
 class ArtworkDetailView(View):

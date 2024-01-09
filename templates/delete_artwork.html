@@ -5,13 +5,11 @@
 
 {% block content %}
 <div class="center">
-  <div class="artwork">
     <h2>Delete Artwork - {{ artwork.title }}</h2>
     <p>Are you sure you want to delete "{{ artwork.title }}"?</p>
     <form method="post" action="{% url 'delete_artwork' artwork.id %}">
       {% csrf_token %}
       <button type="submit">Delete</button>
     </form>
-  </div>
 </div>
 {% endblock %}
