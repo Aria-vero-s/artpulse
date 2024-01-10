@@ -182,7 +182,6 @@ if 'USE_AWS' in os.environ:
 
     STATIC_URL = '/static/'
     STATIC_MEDIA = '/media/'
-    https://artpulse.s3.amazonaws.com/static/image.jpeg'
 
     # Override static and media URLs in production
     STATIC_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{STATICFILES_LOCATION}/'
