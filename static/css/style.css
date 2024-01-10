@@ -196,6 +196,15 @@ textarea {
     z-index: 1;
   }
 
+@media screen and (max-height: 90%) {
+    .hero-section h1 {
+        position: relative;
+        top: calc(10% - 50px);
+        left: 0;
+        transform: 0;
+    }
+}
+
 
 .hero-image-container {
     width: 100%;
