@@ -18,6 +18,10 @@ def index(request):
     return render(request, 'index.html', {'artworks': artworks})
 
 
+def error(request):
+    return render(request, 'error.html', {})
+
+
 def user_profile(request, username):
     user = get_object_or_404(User, username=username)
     user_profile = get_object_or_404(UserProfile, user=user)
