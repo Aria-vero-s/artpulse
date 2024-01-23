@@ -36,6 +36,9 @@ h5 {
 nav {
   background-color: #fff !important;
 }
+nav a {
+  color: #000 !important;
+}
 .navbar {
   background-color: #fff !important;
 }
