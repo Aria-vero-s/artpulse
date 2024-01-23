@@ -12,6 +12,8 @@ from django.contrib.auth.models import User
 from allauth.account.adapter import get_adapter
 from django.http import HttpResponseRedirect
 
+from .forms import ContactForm
+from django.contrib import messages
 
 def index(request):
     artworks = Artwork.objects.all()
@@ -209,3 +211,16 @@ class ArtworkDetailView(View):
     def get(self, request, artwork_id):
         artwork = get_object_or_404(Artwork, pk=artwork_id)
         return render(request, 'artwork_detail.html', {'artwork': artwork})
+
+
+def contact_form(request):
+    if request.method == 'POST':
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Message sent successfully!')
+            return redirect('contact_form')
+    else:
+        form = ContactForm()
+
+    return render(request, 'contact_form.html', {'form': form})

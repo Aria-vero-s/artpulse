@@ -91,20 +91,20 @@
             </div>
 
             <!-- Right column -->
-            <div class="col-md-4 text-right">
-                <h5>Account</h5>
+            <div class="col-md-4 right-column-footer">
                 <ul class="list-unstyled">
+                    <h5>Account</h5>
                     <li><a href="{% url 'account_signup' %}">Create an account</a></li>
                     <li><a href="{% url 'account_login' %}">Sign in</a></li>
                     <li><a href="{% url 'account' %}">Account</a></li>
                 </ul>
             </div>
-            <div class="col-md-4 text-right">
-                <h5>Links</h5>
+            <div class="col-md-4 right-column-footer">
                 <ul class="list-unstyled">
+                    <h5>Links</h5>
                     <li><a href="{% url 'index' %}">Home</a></li>
                     <li><a href="{% url 'index' %}#about">About</a></li>
-                    <li><a href="#">Contact</a></li>
+                    <li><a href="{% url 'contact_form' %}">Contact</a></li>
                 </ul>
             </div>
         </div>

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Artwork, Comment, UserProfile
+from .models import Artwork, Comment, UserProfile, ContactMessage
 
 class UserProfileAdmin(admin.ModelAdmin):
     list_display = ('user', 'profile_picture')
@@ -7,4 +7,4 @@ class UserProfileAdmin(admin.ModelAdmin):
 admin.site.register(Artwork)
 admin.site.register(Comment)
 admin.site.register(UserProfile, UserProfileAdmin)
-
+admin.site.register(ContactMessage)
