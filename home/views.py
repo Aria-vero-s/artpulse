@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
-from .models import Artwork, Comment, UserProfile
+from .models import Artwork, Comment, UserProfile, Like
 from .forms import RatingForm, CommentForm, ArtworkForm
 from django.db.models import Q, Count, Avg
 from django.utils.decorators import method_decorator
@@ -8,12 +8,13 @@ from django.views import View
 from .forms import ProfilePictureForm
 from allauth.account.views import LogoutView
 from django.contrib.auth.models import User
-
 from allauth.account.adapter import get_adapter
 from django.http import HttpResponseRedirect
-
 from .forms import ContactForm
 from django.contrib import messages
+from django.http import JsonResponse
+from django.contrib.auth import logout
+
 
 def index(request):
     artworks = Artwork.objects.all()
@@ -68,7 +69,7 @@ def account(request):
 
 @method_decorator(login_required, name='dispatch')
 class ChangeProfilePictureView(View):
-    template_name = 'change_profile_picture.html'  # Create a template for updating profile picture
+    template_name = 'change_profile_picture.html'
 
     def get(self, request, *args, **kwargs):
         form = ProfilePictureForm()
@@ -79,7 +80,7 @@ class ChangeProfilePictureView(View):
 
         if form.is_valid():
             form.save()
-            return redirect('account')  # Redirect to the account panel after successful update
+            return redirect('account')
 
         return render(request, self.template_name, {'form': form})
 
@@ -175,20 +176,10 @@ def search_artworks(request):
     return render(request, 'index.html', {'artworks': artworks, 'query': query, 'category': category, 'rating': rating})
 
 
-from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, redirect
-from allauth.account.views import LogoutView
-from django.contrib.auth import logout
-from django.contrib import messages
-
 @login_required
 def delete_account(request):
     if request.method == 'POST':
-        # Perform account deletion logic here
-        # For example, you might want to deactivate the user account
-        # You can use request.user to access the currently authenticated user
-
-        # Example: Deactivate the user account
+        # Deactivate the user account
         user = request.user
         user.is_active = False
         user.save()
@@ -198,7 +189,7 @@ def delete_account(request):
 
         # Redirect to a confirmation page or any other appropriate view
         messages.success(request, 'Your account has been successfully deleted.')
-        return redirect('index')  # Change 'home' to the appropriate URL
+        return redirect('index')
 
     return render(request, 'delete_account.html')
 
@@ -224,3 +215,26 @@ def contact_form(request):
         form = ContactForm()
 
     return render(request, 'contact_form.html', {'form': form})
+
+
+@login_required
+def like_artwork(request, artwork_id):
+    artwork = get_object_or_404(Artwork, id=artwork_id)
+
+    if request.user in artwork.likes.all():
+        # User has already liked, remove the like
+        artwork.likes.remove(request.user)
+        liked = False
+    else:
+        # User hasn't liked, add the like
+        artwork.likes.add(request.user)
+        liked = True
+
+    like_count = artwork.likes.count()
+
+    response_data = {
+        'liked': liked,
+        'like_count': like_count,
+    }
+
+    return JsonResponse(response_data)

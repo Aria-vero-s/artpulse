@@ -53,7 +53,15 @@
                                     </div>
                                     <div class="col d-flex justify-content-end">
                                         <a class="card-text mr-2" href="{% url 'artwork_detail' artwork.id %}"><i class="fa-regular fa-message"></i></a>
-                                        <a class="card-text" href="{% url 'artwork_detail' artwork.id %}"><i class="fa-regular fa-thumbs-up"></i></a>
+                                        <a class="card-text" href="{% url 'like_artwork' artwork.id %}">
+                                          <a class="card-text like-button" data-artwork-id="{{ artwork.id }}">
+                                            {% if request.user in artwork.likes.all %}
+                                                <i class="fa-solid fa-heart"></i>
+                                            {% else %}
+                                                <i class="fa-regular fa-heart"></i>
+                                            {% endif %}
+                                        </a>
+                                      </a>
                                     </div>
                                 </div>
                                 <div class="account-links">

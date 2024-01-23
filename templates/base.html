@@ -38,6 +38,11 @@ body {
 
 a {
   color: #00abd6 !important;
+  transition: all 0.3s ease-in-out;
+}
+
+a:hover {
+  color: #FF273B !important;
 }
 
 .highlight {
@@ -81,6 +86,12 @@ nav img {
   border: none;
   border-radius: 0px;
   flex: 0;
+  transition: all 0.3s ease-in-out;
+}
+
+.navbar button:hover {
+  background-color: transparent;
+  color:#00abd6;
 }
 
 /* account */
@@ -669,4 +680,25 @@ button:hover {
       }
     });
   </script>
+<script>
+  $('.like-button').click(function() {
+      var artworkId = $(this).data('artwork-id');
+      $.ajax({
+          type: 'POST',
+          url: '{% url "like_artwork" artwork_id=123 %}'.replace('123', artworkId),
+          data: {
+              csrfmiddlewaretoken: '{{ csrf_token }}',
+          },
+          dataType: 'json',
+          success: function(data) {
+              if (data.liked) {
+                  $('.like-button[data-artwork-id="' + artworkId + '"] i').removeClass('fa-regular').addClass('fa-solid');
+              } else {
+                  $('.like-button[data-artwork-id="' + artworkId + '"] i').removeClass('fa-solid').addClass('fa-regular');
+              }
+              $('.like-button[data-artwork-id="' + artworkId + '"] .like-count').text(data.like_count);
+          }
+      });
+  });
+</script>
 </html>

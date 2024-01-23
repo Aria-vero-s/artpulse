@@ -89,16 +89,17 @@
                     <hr>
                     <div class="artwork-details mt-3">
                         <p class="label-orange"><i class="fa-solid fa-star"></i>{{ artwork.rating }}</p>
-                        <p class="label-blue"><i class="fa-solid fa-message"></i>{{ artwork.critique }}</p>
+                        <p class="label-blue">
+                            <a class="card-text like-button" data-artwork-id="{{ artwork.id }}">
+                                {% if request.user in artwork.likes.all %}
+                                    <i class="fa-solid fa-heart"></i>
+                                {% else %}
+                                    <i class="fa-regular fa-heart"></i>
+                                {% endif %}
+                                <span class="like-count">{{ artwork.likes.count }}</span>
+                            </a>
                     </div>
                     <hr>
-                    <form method="post" action="{% url 'rate_artwork' artwork.id %}">
-                        {% csrf_token %}
-                        <input type="number" name="rating" min="1" max="5" placeholder="5" required> /5
-                        <br>
-                        <button type="submit">Rate this artwork</button>
-                    </form>
-    
                     <form class="mt-5" method="post" action="{% url 'add_comment' artwork.id %}">
                         {% csrf_token %}
                         <label for="comment">Post a comment:</label>
@@ -115,7 +116,7 @@
             </div>
             <div class="break"></div>
             <div class="text-center pb-5">
-                <a href="{% url 'user_profile' username=artwork.artist.username %}">Back to Artist Profile</a>
+                <a href="{% url 'user_profile' username=artwork.artist.username %}">Go to Artist Profile</a>
             </div>
         </div>
     </div>

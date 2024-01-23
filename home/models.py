@@ -23,6 +23,14 @@ def save_user_profile(sender, instance, **kwargs):
     instance.userprofile.save()
 
 
+class Like(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    artwork = models.ForeignKey('Artwork', on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f'{self.user.username} likes {self.artwork.title}'
+
+
 class Artwork(models.Model):
     CATEGORY_CHOICES = [
         ('painting', 'Painting'),
@@ -36,9 +44,11 @@ class Artwork(models.Model):
     category = models.CharField(max_length=100, choices=CATEGORY_CHOICES)
     artist = models.ForeignKey(User, on_delete=models.CASCADE)
     rating = models.FloatField(default=0)
+    likes = models.ManyToManyField(User, related_name='liked_artworks', through=Like)
 
     def __str__(self):
         return self.title
+
 
 class Comment(models.Model):
     artwork = models.ForeignKey(Artwork, related_name='comments', on_delete=models.CASCADE)

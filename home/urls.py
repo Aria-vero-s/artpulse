@@ -17,4 +17,5 @@ urlpatterns = [
     path('delete/<int:artwork_id>/', views.delete_artwork, name='delete_artwork'),
     path('artwork/<int:artwork_id>/', views.ArtworkDetailView.as_view(), name='artwork_detail'),
     path('contact_form/', views.contact_form, name='contact_form'),
+    path('like/<int:artwork_id>/', views.like_artwork, name='like_artwork'),
 ]
