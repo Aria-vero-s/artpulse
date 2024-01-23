@@ -54,12 +54,12 @@
                 <!-- Back to Gallery link -->
                 <a href="{% url 'index' %}" class="highlight">Back to Gallery</a>
             </div>
+            <div id="myModal" class="modal">
+                <span class="close-btn" onclick="closeModal()">&times;</span>
+                <img class="modal-content" id="modalImage">
+            </div>
         </div>
     </div>
-</div>
-<div id="myModal" class="modal">
-    <span class="close-btn" onclick="closeModal()">&times;</span>
-    <img class="modal-content" id="modalImage">
 </div>
 
 {% endblock %}

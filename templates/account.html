@@ -1,68 +1,6 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <style>
-
-        /* .account-links {
-            display: flex;
-            justify-content:center;
-            margin: 20px;
-        }
-
-        @media screen and (max-width: 768px) {
-            .account-links {
-                flex-direction: column;
-                width:100%;
-                margin: 0px;
-                margin-top:20px;
-            }
-        }
-
-        .account-links a {
-            margin: 20px;
-            text-decoration: none;
-            color: #333;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            transition: background-color 0.3s;
-        }
-
-        @media screen and (max-width: 768px) {
-            .account-links a {
-                flex-direction: column;
-                border: 0px;
-                margin: 0px;
-            }
-        }
-
-        .account-links li {
-            list-style: none;
-        }
-
-        .account-links a:hover {
-            background-color: #ddd;
-        }
-
-        .profile-panel {
-            padding: 20px;
-            text-align: center;
-        }
-
-        .profile-picture {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            object-fit: cover;
-        }
-
-        .profile-info {
-            margin-top: 20px;
-        } */
-
-    </style>
-</head>
-<body>
 
 <div class="break"></div>
 <div class="container link-column">
@@ -129,63 +67,11 @@
                 {% endfor %}
             </div>
         </div>
+        <div id="myModal" class="modal">
+            <span class="close-btn" onclick="closeModal()">&times;</span>
+            <img class="modal-content" id="modalImage">
+        </div>
     </div>
 </div>
-<!-- <div class="account-panel">
-    <div class="profile-panel">
-        <h2>{{ user.username }}</h2>
-    
-        {% if user.userprofile.profile_picture %}
-        <img src="{{ user.userprofile.profile_picture.url }}" alt="Profile Picture" class="profile-picture">
-        {% else %}
-            <p>No profile picture available</p>
-        {% endif %}
-    
-        <div class="profile-info">
-            <a href="{% url 'change_profile_picture' %}">Change Profile Picture</a>
-            <div class="statistics">
-                <p><a href="{% url 'user_profile' username=user.username %}">View Public Profile</a></p>
-                <p>Total Artworks: {{ total_artworks }}</p>
-                <p>Average Rating: {% if average_rating %}{{ average_rating|floatformat:2 }}{% else %}Not available{% endif %}</p>
-                <p>Total Comments: {{ total_critiques }}</p>
-            </div>
-        </div>
-
-        <div class="account-links">
-            <li><a href="{% url 'create_artwork' %}">Create Artwork</a></li>
-            <li><a href="{% url 'account_email' %}">Change E-mail</a></li>
-            <li><a href="{% url 'delete_account' %}">Delete My Account</a></li>
-        </div>
-    </div>
-
-    <div class="gallery">
-        <div class="artworks-container">
-            {% for artwork in user.artwork_set.all %}
-                <div class="artwork">
-                    <h2>{{ artwork.title }}</h2>
-                    <p>Artist: {{ artwork.artist.username }}</p>
-                    <img src="{{ artwork.image.url }}" alt="{{ artwork.title }}" onclick="openModal('{{ artwork.image.url }}', '{{ artwork.title }}')">
-
-                    <p>
-                        {{ artwork.description|slice:":100" }}
-                        {% if artwork.description|length > 100 %}...<a href="{% url 'artwork_detail' artwork.id %}" class="read-more">Continue</a> {% endif %}
-                    </p>
-                    <br>
-                    <a href="{% url 'artwork_detail' artwork.id %}" class="read-more">View Ratings & Comment</a>
-                    
-                    <div class="account-links">
-                        <li><a href="{% url 'delete_artwork' artwork.id %}">Delete</a></li>
-                        <li><a href="{% url 'update_artwork' artwork.id %}">Update</a></li>
-                    </div>
-                </div>
-            {% endfor %}
-        </div>
-    </div>
-    <div id="myModal" class="modal">
-        <span class="close-btn" onclick="closeModal()">&times;</span>
-        <img class="modal-content" id="modalImage">
-    </div>
-    
-</div> -->
 
 {% endblock %}
