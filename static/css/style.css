@@ -451,7 +451,7 @@ button:hover {
 }
 
 .modal-content {
-    width: auto;
+    width: auto !important;
     height: 80%;
 }
 
