@@ -2,13 +2,8 @@
 
 {% block content %}
     <style>
-        .account-panel {
-            padding: 20px;
-            text-align: center;
-            width:100%;
-        }
 
-        .account-links {
+        /* .account-links {
             display: flex;
             justify-content:center;
             margin: 20px;
@@ -63,12 +58,80 @@
 
         .profile-info {
             margin-top: 20px;
-        }
+        } */
+
     </style>
 </head>
 <body>
 
-<div class="account-panel">
+<div class="break"></div>
+<div class="container link-column">
+    <div class="left-column">
+        <ul class="list-group">
+            <li class="list-group-item"><a class="highlight" href="{% url 'create_artwork' %}">Create Artwork</a></li>
+            <li class="list-group-item"><a href="{% url 'user_profile' username=user.username %}">View Public Profile</a></li>
+            <li class="list-group-item"><a href="{% url 'account_email' %}">Change E-mail</a></li>
+            <li class="list-group-item"><a href="{% url 'delete_account' %}">Delete My Account</a></li>
+        </ul>
+    </div>
+
+    <!-- Right Column: Profile Information and Artwork Cards -->
+    <div class="right-column">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="profile-picture">
+                        {% if user.userprofile.profile_picture %}
+                            <img src="{{ user.userprofile.profile_picture.url }}" class="rounded-circle profile-picture" alt="Profile Picture" width="150" height="150">
+                        {% else %}
+                            <img src="https://art-pulse.s3.ca-central-1.amazonaws.com/media/blank-profile-picture.webp" alt="Profile Picture">
+                        {% endif %}
+                    </div>
+                    <div class="ml-5 mt-2">
+                        <a href="{% url 'change_profile_picture' %}">Change Profile Picture</a>
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <div class="col-md-12 user-stats">
+                        <h2>{{ user.username }}</h2>
+                        <p>Total Artworks: {{ total_artworks }}</p>
+                        <p>Average Rating: {% if average_rating %}{{ average_rating|floatformat:2 }}{% else %}Not available{% endif %}</p>
+                        <p>Total Comments: {{ total_critiques }}</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Artwork Cards Section -->
+            <div class="row mt-4">
+                {% for artwork in user.artwork_set.all %}
+                    <div class="col-md-4">
+                        <div class="card">
+                            <img src="{{ artwork.image.url }}" class="card-img-top" alt="{{ artwork.title }}" onclick="openModal('{{ artwork.image.url }}', '{{ artwork.title }}')">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col">
+                                        <h5 class="card-title">{{ artwork.title }}</h5>
+                                        <p class="card-text"><strong>Artist:</strong> <a href="{% url 'user_profile' username=artwork.artist.username %}">{{ artwork.artist.username }}</a></p>
+                                    </div>
+                                    <div class="col d-flex justify-content-end">
+                                        <a class="card-text mr-2" href="{% url 'artwork_detail' artwork.id %}"><i class="fa-regular fa-message"></i></a>
+                                        <a class="card-text" href="{% url 'artwork_detail' artwork.id %}"><i class="fa-regular fa-thumbs-up"></i></a>
+                                    </div>
+                                </div>
+                                <div class="account-links">
+                                    <a href="{% url 'artwork_detail' artwork.id %}">Details</a>
+                                    <a href="{% url 'delete_artwork' artwork.id %}">Delete</a>
+                                    <a href="{% url 'update_artwork' artwork.id %}">Update</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+<!-- <div class="account-panel">
     <div class="profile-panel">
         <h2>{{ user.username }}</h2>
     
@@ -102,7 +165,7 @@
                     <h2>{{ artwork.title }}</h2>
                     <p>Artist: {{ artwork.artist.username }}</p>
                     <img src="{{ artwork.image.url }}" alt="{{ artwork.title }}" onclick="openModal('{{ artwork.image.url }}', '{{ artwork.title }}')">
-                    <!-- Limit description to 100 characters -->
+
                     <p>
                         {{ artwork.description|slice:":100" }}
                         {% if artwork.description|length > 100 %}...<a href="{% url 'artwork_detail' artwork.id %}" class="read-more">Continue</a> {% endif %}
@@ -123,6 +186,6 @@
         <img class="modal-content" id="modalImage">
     </div>
     
-</div>
+</div> -->
 
 {% endblock %}

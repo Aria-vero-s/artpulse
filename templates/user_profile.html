@@ -1,100 +1,65 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <style>
-        .account-panel {
-            background-color: #f2f2f2;
-            padding: 20px;
-            text-align: center;
-        }
 
-        .account-links {
-            display: flex;
-            justify-content: space-around;
-            margin-top: 20px;
-        }
 
-        .account-links a {
-            text-decoration: none;
-            color: #333;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            transition: background-color 0.3s;
-        }
+<div class="break"></div>
+    <div class="container profile"> 
+        <div class="col-md-12">
+            <div class="col-md-12">
+                <div class="row">
+                    <!-- Profile Picture Section -->
+                    <div class="col-md-4 profile-picture">
+                        {% if user.userprofile.profile_picture %}
+                            <img src="{{ user_profile.profile_picture.url }}" alt="Profile Picture">
+                        {% else %}
+                            <img src="https://art-pulse.s3.ca-central-1.amazonaws.com/media/blank-profile-picture.webp" alt="Profile Picture">
+                        {% endif %}
+                    </div>
 
-        .account-links li {
-            list-style: none;
-        }
+                    <!-- User Information and Stats Section -->
+                    <div class="col-md-8 stats">
+                        <h2>{{ user_profile.user.username }}</h2>
+                        <p>Total Artworks: {{ total_artworks }}</p>
+                        <p>Average Rating: {% if average_rating %}{{ average_rating|floatformat:2 }}{% else %}Not available{% endif %}</p>
+                        <p>Total Comments: {{ total_critiques }}</p>
+                    </div>
+                </div>
+            </div>
 
-        .account-links a:hover {
-            background-color: #ddd;
-        }
-
-        .profile-panel {
-            background-color: #f2f2f2;
-            padding: 20px;
-            text-align: center;
-        }
-
-        .profile-picture {
-            width: 100px; /* Adjust the size as needed */
-            height: 100px;
-            border-radius: 50%;
-            object-fit: cover;
-        }
-
-        .profile-info {
-            margin-top: 20px;
-        }
-    </style>
-</head>
-<body>
-
-<div class="account-panel">
-    <div class="profile-panel">
-        <h2>{{ user_profile.user.username }}</h2>
-    
-        {% if user.userprofile.profile_picture %}
-        <img src="{{ user_profile.profile_picture.url }}" alt="Profile Picture" class="profile-picture">
-        {% else %}
-            <p>No profile picture available</p>
-        {% endif %}
-    
-        <div class="profile-info">
-            <div class="statistics">
-                <p>Total Artworks: {{ total_artworks }}</p>
-                <p>Average Rating: {% if average_rating %}{{ average_rating|floatformat:2 }}{% else %}Not available{% endif %}</p>
-                <p>Total Comments: {{ total_critiques }}</p>
+            <!-- Artwork Cards Section -->
+            <div class="row mt-4">
+                {% for artwork in artworks %}
+                    <div class="col-md-4">
+                        <div class="card">
+                            <img src="{{ artwork.image.url }}" class="card-img-top" alt="{{ artwork.title }}" onclick="openModal('{{ artwork.image.url }}', '{{ artwork.title }}')">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col">
+                                        <h5 class="card-title">{{ artwork.title }}</h5>
+                                        <p class="card-text"><strong>Artist:</strong> <a href="{% url 'user_profile' username=artwork.artist.username %}">{{ artwork.artist.username }}</a></p>
+                                    </div>
+                                    <div class="col d-flex justify-content-end">
+                                        <a class="card-text mr-2" href="{% url 'artwork_detail' artwork.id %}"><i class="fa-regular fa-message"></i></a>
+                                        <a class="card-text" href="{% url 'artwork_detail' artwork.id %}"><i class="fa-regular fa-thumbs-up"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="break"></div>
+            <div class="text-center pb-5">
+                <!-- Back to Gallery link -->
+                <a href="{% url 'index' %}" class="highlight">Back to Gallery</a>
             </div>
         </div>
     </div>
-
-    <div class="gallery">
-        <div class="artworks-container">
-            {% for artwork in artworks %}
-                <div class="artwork">
-                    <h2>{{ artwork.title }}</h2>
-                    <p>Artist: {{ artwork.artist.username }}</p>
-                    <img src="{{ artwork.image.url }}" alt="{{ artwork.title }}" onclick="openModal('{{ artwork.image.url }}', '{{ artwork.title }}')">
-                    <!-- Limit description to 100 characters -->
-                    <p>
-                        {{ artwork.description|slice:":100" }}
-                        {% if artwork.description|length > 100 %}...<a href="{% url 'artwork_detail' artwork.id %}" class="read-more">Continue</a> {% endif %}
-                    </p>
-                    <br>
-                    <a href="{% url 'artwork_detail' artwork.id %}" class="read-more">Rate and Comment</a>
-                </div>
-            {% endfor %}
-        </div>
-    </div>
-    <div id="myModal" class="modal">
-        <span class="close-btn" onclick="closeModal()">&times;</span>
-        <img class="modal-content" id="modalImage">
-    </div>
 </div>
-
-<!-- Back to Gallery link -->
-<a href="{% url 'index' %}">Back to Gallery</a>
+<div id="myModal" class="modal">
+    <span class="close-btn" onclick="closeModal()">&times;</span>
+    <img class="modal-content" id="modalImage">
+</div>
 
 {% endblock %}

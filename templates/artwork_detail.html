@@ -2,7 +2,7 @@
 
 {% block content %}
     <style>
-        .account-panel {
+        /* .account-panel {
             background-color: #f2f2f2;
             padding: 20px;
             text-align: center;
@@ -38,7 +38,7 @@
         }
 
         .profile-picture {
-            width: 100px; /* Adjust the size as needed */
+            width: 100px;
             height: 100px;
             border-radius: 50%;
             object-fit: cover;
@@ -46,10 +46,85 @@
 
         .profile-info {
             margin-top: 20px;
-        }
+        } */
+
+
     </style>
 </head>
 <body>
+
+                    <!-- <div class="col-md-12 stats">
+                        <h2>Title: {{ artwork.title }}</h2>
+                        <h2>Artist: <a href="{% url 'user_profile' username=artwork.artist.username %}">{{ artwork.artist.username }}</a></h2>
+                        <img src="{{ artwork.image.url }}" alt="{{ artwork.title }}" onclick="openModal('{{ artwork.image.url }}', '{{ artwork.title }}')">
+                        <p style="margin-top: 20px;">Category: {{ artwork.category }}</p>
+                        <p>Rating: {{ artwork.rating }}</p>
+                    </div>
+                </div>
+            </div> -->
+
+
+            <!-- <div class="row mt-4">
+
+                    <div class="col-md-12"> -->
+                        
+<div class="break"></div>
+<div class="container details"> 
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="details-image">
+                        <img src="{{ artwork.image.url }}" alt="{{ artwork.title }}" onclick="openModal('{{ artwork.image.url }}', '{{ artwork.title }}')">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <h4 class="mt-5">{{ artwork.title }}</h4>
+                    <h5>Artist: <a href="{% url 'user_profile' username=artwork.artist.username %}">{{ artwork.artist.username }}</a></h5>
+                    <p class="mt-4">Description:</p>
+                    <p class="description">{{ artwork.description }}</p>
+                    <div class="artwork-details">
+                        <p><strong>Category: </strong></p>
+                        <p class="label-green">{{ artwork.category }}</p>
+                    </div>
+                    <hr>
+                    <div class="artwork-details mt-3">
+                        <p class="label-orange"><i class="fa-solid fa-star"></i>{{ artwork.rating }}</p>
+                        <p class="label-blue"><i class="fa-solid fa-message"></i>{{ artwork.critique }}</p>
+                    </div>
+                    <hr>
+                    <form method="post" action="{% url 'rate_artwork' artwork.id %}">
+                        {% csrf_token %}
+                        <input type="number" name="rating" min="1" max="5" placeholder="5" required> /5
+                        <br>
+                        <button type="submit">Rate this artwork</button>
+                    </form>
+    
+                    <form class="mt-5" method="post" action="{% url 'add_comment' artwork.id %}">
+                        {% csrf_token %}
+                        <label for="comment">Post a comment:</label>
+                        <textarea name="comment" rows="4" cols="50" required></textarea>
+                        <button type="submit">Post</button>
+                    </form>
+                    <ul style="display:initial;" class="comment-section">
+                        <p>Comments:</p>
+                        {% for comment in artwork.comments.all %}
+                            <li><strong style="font-weight:bold">{{ comment.user.username }}</strong>: {{ comment.text }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            <div class="break"></div>
+            <div class="text-center pb-5">
+                <a href="{% url 'user_profile' username=artwork.artist.username %}">Back to Artist Profile</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="myModal" class="modal">
+    <span class="close-btn" onclick="closeModal()">&times;</span>
+    <img class="modal-content" id="modalImage">
+</div>
+<!-- 
 
 <div class="account-panel">
     <div class="gallery">
@@ -91,9 +166,9 @@
         </div>
     </div>
 
-    <!-- Back to Gallery link -->
+
     <a href="{% url 'user_profile' username=artwork.artist.username %}">Back to Artist Profile</a>
     
-</div>
+</div> -->
 
 {% endblock %}

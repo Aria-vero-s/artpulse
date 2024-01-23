@@ -1,15 +1,58 @@
 {% extends 'base.html' %}
 
 
-
-
 {% block content %}
-<div class="center">
-    <h2>Update Artwork - {{ artwork.title }}</h2>
-    <form method="post" enctype="multipart/form-data" action="{% url 'update_artwork' artwork.id %}">
-      {% csrf_token %}
-      {{ form.as_p }}
-      <button type="submit">Update</button>
-    </form>
+
+<div class="break"></div>
+<div class="container form-container">
+  <div class="form-container-border">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="row">
+          <div class="col-md-12">
+            <h2>Update Artwork - {{ artwork.title }}</h2>
+          </div>
+        </div>
+        <div class="row pt-5">
+          <div class="col-md-12">
+            <form method="post" enctype="multipart/form-data" action="{% url 'update_artwork' artwork.id %}">
+
+              {% csrf_token %}
+            
+              <!-- Title Field -->
+              <label for="id_title">Title:</label>
+              <input type="text" name="title" id="id_title" value="{{ form.title.value }}" required>
+              
+              <!-- Description Field -->
+              <label for="id_description">Description:</label>
+              <textarea name="description" id="id_description" required>{{ form.description.value }}</textarea>
+              
+              <!-- Image Field -->
+              <label for="id_image">Image:</label>
+              <input type="file" name="image" id="id_image" accept="image/*">
+              <p>No file chosen</p>
+              
+              <!-- Category Field (Dropdown) -->
+              <label for="id_category">Category:</label>
+              <select name="category" id="id_category" required>
+                <option value="" {% if not form.category.value %}selected{% endif %}></option>
+                <option value="painting" {% if form.category.value == 'painting' %}selected{% endif %}>Painting</option>
+                <option value="sculpture" {% if form.category.value == 'sculpture' %}selected{% endif %}>Sculpture</option>
+                <option value="digital_art" {% if form.category.value == 'digital_art' %}selected{% endif %}>Digital Art</option>
+              </select>
+              <br>
+
+              <div class="break"></div>
+            
+              <!-- Submit Button -->
+              <button type="submit">Update</button>
+            
+            </form>            
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
+
 {% endblock %}

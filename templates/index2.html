@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ArtPulse Gallery</title>
+</head>
+<body>
+
+<div class="hero-section">
+    <div class="hero-image-container">
+        <h1>Art<br>Pulse</h1>
+        <img src="https://art-pulse.s3.amazonaws.com/media/image.jpeg" alt="Background Image">
+    </div>
+    
+    <!-- Search Form -->
+    <div class="search-form">
+        <div class="form-container">
+            <form method="get" action="{% url 'search_artworks' %}">
+                <p>Search by name, artist, category and rating</p>
+                <!-- <label for="q"></label> -->
+                <input type="text" id="q" name="q" placeholder="Enter search query">
+        
+                <!-- <label for="category"></label> -->
+                <select id="category" name="category">
+                  <option value="" selected>All Categories</option>
+                  <option value="painting">Painting</option>
+                  <option value="sculpture">Sculpture</option>
+                  <option value="digital_art">Digital Art</option>
+                </select>
+        
+                <!-- <label for="rating"></label> -->
+                <input type="number" id="rating" name="rating" min="0" max="10" step="0.1" placeholder="Enter rating">
+        
+                <button type="submit" style="margin-bottom:0;">Search</button>
+            </form>
+        </div>
+    </div>
+
+</div>
+
+<div class="gallery">
+    <div class="artworks-container" id="artworksContainer">
+    {% for artwork in artworks %}
+        <div class="artwork" style="display: none;">
+            <h2>{{ artwork.title }}</h2>
+            <p>Artist: <a href="{% url 'user_profile' username=artwork.artist.username %}">{{ artwork.artist.username }}</a></p>
+            <img src="{{ artwork.image.url }}" alt="{{ artwork.title }}" onclick="openModal('{{ artwork.image.url }}', '{{ artwork.title }}')">
+            <!-- Limit description to 100 characters -->
+            <p>
+                {{ artwork.description|slice:":100" }}
+                {% if artwork.description|length > 100 %}...<a href="{% url 'artwork_detail' artwork.id %}" class="read-more">Continue</a> {% endif %}
+            </p>
+            <br>
+            <a href="{% url 'artwork_detail' artwork.id %}" class="read-more">Rate and Comment</a>
+        </div>
+    {% endfor %}
+    </div>
+    <button id="showMoreButton" onclick="showMore()">Show More</button>
+</div>
+
+<div id="myModal" class="modal">
+    <span class="close-btn" onclick="closeModal()">&times;</span>
+    <img class="modal-content" id="modalImage">
+</div>
+
+<div class="break"></div>
+
+<div class="background">
+    <div class="project">
+        <h1>The project</h1>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="column">
+            <h2>Search the database</h2>
+            <p>Discover user-created artworks. Explore this extensive collection based on your interests, utilizing various search criteria.</p>
+        </div>
+
+        <div class="column">
+            <h2>Join the Community</h2>
+            <p>Create an account and connect with fellow artists. Share your expertise by providing ratings and constructive comments.</p>
+        </div>
+
+        <div class="column">
+            <h2>Display Your Artistry</h2>
+            <p>Showcase your own artwork on ArtPulse. Elevate your online presence and contribute to the richness of the artistic tapestry within the platform.</p>
+        </div>
+    </div>
+</div>
+
+<div class="break"></div>
+</body>
+</html>
+{% endblock %}
+    
+    

@@ -1,15 +1,31 @@
 {% extends 'base.html' %}
 
-
-
-
 {% block content %}
-<div class="center">
-    <h2>Delete Artwork - {{ artwork.title }}</h2>
-    <p>Are you sure you want to delete "{{ artwork.title }}"?</p>
-    <form method="post" action="{% url 'delete_artwork' artwork.id %}">
-      {% csrf_token %}
-      <button type="submit">Delete</button>
-    </form>
+
+<div class="break"></div>
+<div class="container form-container">
+  <div class="form-container-border">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="row">
+          <div class="col-md-12">
+            <h2>Delete Artwork - {{ artwork.title }}</h2>
+            <p>Are you sure you want to delete "{{ artwork.title }}"?</p>
+          </div>
+        </div>
+        <div class="row pt-5">
+          <div class="col-md-12">
+            <form method="post" action="{% url 'delete_artwork' artwork.id %}">
+              {% csrf_token %}
+              <button type="submit">Delete</button>
+              <a href="{% url 'account' %}"><button>Cancel</button></a>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
+
+
 {% endblock %}

@@ -1,101 +1,112 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ArtPulse Gallery</title>
-</head>
-<body>
-
-<div class="hero-section">
-    <div class="hero-image-container">
-        <h1>Art<br>Pulse</h1>
-        <img src="https://art-pulse.s3.amazonaws.com/media/image.jpeg" alt="Background Image">
+    <div class="break"></div>
+    <div class="container search-form padding-top">
+        <div class="row">
+        <form method="get" action="{% url 'search_artworks' %}">
+          <!-- begin search -->
+          <div class="col-md-12">
+            <div class="grid search">
+              <div class="grid-body">
+                <div class="row">
+                  <div class="col-md-12">
+                    <!-- begin search input -->
+                    <div class="input-group">
+                        <input type="text" id="q" name="q" placeholder="Enter search query">
+                        <select id="category" name="category">
+                            <option value="" selected>All Categories</option>
+                            <option value="painting">Painting</option>
+                            <option value="sculpture">Sculpture</option>
+                            <option value="digital_art">Digital Art</option>
+                        </select>
+                        <button type="submit">Search <i class="fa fa-search"></i></button>
+                    </div>
+                    <!-- end search input -->
+                    
+                    <div class="break"></div>
+                    
+                    <!-- begin table result -->
+                    <div class="row">
+                        {% for artwork in artworks %}
+                            <div class="col-md-4">
+                                <div class="card">
+                                    <img src="{{ artwork.image.url }}" class="card-img-top" alt="{{ artwork.title }}" onclick="openModal('{{ artwork.image.url }}', '{{ artwork.title }}')">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col">
+                                                <h5 class="card-title">{{ artwork.title }}</h5>
+                                                <p class="card-text"><strong>Artist:</strong> <a href="{% url 'user_profile' username=artwork.artist.username %}">{{ artwork.artist.username }}</a></p>
+                                            </div>
+                                            <div class="col d-flex justify-content-end">
+                                                <a class="card-text mr-2" href="{% url 'artwork_detail' artwork.id %}"><i class="fa-regular fa-message"></i></a>
+                                                <a class="card-text" href="{% url 'artwork_detail' artwork.id %}"><i class="fa-regular fa-thumbs-up"></i></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <p class="text-center space-above">End of results</p>
+                    <!-- end table result -->
+                    
+                  </div>
+                  <!-- end result -->
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- end search result -->
+        </form>
+        </div>
     </div>
-    
-    <!-- Search Form -->
-    <div class="search-form">
-        <div class="form-container">
-            <form method="get" action="{% url 'search_artworks' %}">
-                <p>Search by name, artist, category and rating</p>
-                <!-- <label for="q"></label> -->
-                <input type="text" id="q" name="q" placeholder="Enter search query">
+
+    <div class="break"></div>
+    <div class="container padding-top padding-below about" id="about">
+        <div class="row">
+            <div class="col-12">
+                <h2 class="text-center">About The Project</h2>
+                <p class="text-center">ArtPulse is more than just an online platform—it's a vibrant community that celebrates creativity in all its forms. Our mission is to provide a space where artists can showcase their work, connect with like-minded individuals, and foster a culture of appreciation for diverse artistic expressions.</p>
+            </div>
+        </div>
         
-                <!-- <label for="category"></label> -->
-                <select id="category" name="category">
-                  <option value="" selected>All Categories</option>
-                  <option value="painting">Painting</option>
-                  <option value="sculpture">Sculpture</option>
-                  <option value="digital_art">Digital Art</option>
-                </select>
-        
-                <!-- <label for="rating"></label> -->
-                <input type="number" id="rating" name="rating" min="0" max="10" step="0.1" placeholder="Enter rating">
-        
-                <button type="submit" style="margin-bottom:0;">Search</button>
-            </form>
+        <div class="row mt-4">
+            <div class="col-md-4">
+                <div class="bar"></div>
+                    <div class="feature-section">
+                        <div class="feature-circle profile-circle text-white">
+                            <i class="fas fa-dot fa-2xs"></i>
+                        </div>
+                        <h3 class="text-center">Personalized Profiles</h3>
+                        <p class="text-center">Unleash your creativity by building your unique art haven. Create a stunning profile to showcase your portfolio and share your artistic journey with the world.</p>
+                    </div>
+                <div class="bar"></div>
+            </div>
+            <div class="col-md-4">
+                <div class="bar"></div>
+                    <div class="feature-section">
+                        <div class="feature-circle gallery-circle text-white">
+                            <i class="fas fa-dot fa-2xs"></i>
+                        </div>
+                        <h3 class="text-center">Interactive Galleries</h3>
+                        <p class="text-center">Dive into a world of visual inspiration. Upload your artworks to personalized galleries, where fellow members can explore, appreciate, and engage with your creations.</p>
+                    </div>
+                <div class="bar"></div>
+            </div>
+            <div class="col-md-4">
+                <div class="bar"></div>
+                    <div class="feature-section">
+                        <div class="feature-circle critique-circle text-white">
+                            <i class="fas fa-dot fa-2xs"></i>
+                        </div>
+                        <h3 class="text-center">Constructive Critique</h3>
+                        <p class="text-center">Elevate your art with meaningful feedback. Our community thrives on constructive comments. Collectively foster an environment of growth and encouragement.</p>
+                    </div>
+                <div class="bar"></div>
+            </div>
         </div>
+        <div class="break"></div>
     </div>
 
-</div>
-
-<div class="gallery">
-    <div class="artworks-container" id="artworksContainer">
-    {% for artwork in artworks %}
-        <div class="artwork" style="display: none;">
-            <h2>{{ artwork.title }}</h2>
-            <p>Artist: <a href="{% url 'user_profile' username=artwork.artist.username %}">{{ artwork.artist.username }}</a></p>
-            <img src="{{ artwork.image.url }}" alt="{{ artwork.title }}" onclick="openModal('{{ artwork.image.url }}', '{{ artwork.title }}')">
-            <!-- Limit description to 100 characters -->
-            <p>
-                {{ artwork.description|slice:":100" }}
-                {% if artwork.description|length > 100 %}...<a href="{% url 'artwork_detail' artwork.id %}" class="read-more">Continue</a> {% endif %}
-            </p>
-            <br>
-            <a href="{% url 'artwork_detail' artwork.id %}" class="read-more">Rate and Comment</a>
-        </div>
-    {% endfor %}
-    </div>
-    <button id="showMoreButton" onclick="showMore()">Show More</button>
-</div>
-
-<div id="myModal" class="modal">
-    <span class="close-btn" onclick="closeModal()">&times;</span>
-    <img class="modal-content" id="modalImage">
-</div>
-
-<div class="break"></div>
-
-<div class="background">
-    <div class="project">
-        <h1>The project</h1>
-    </div>
-</div>
-<div class="container">
-    <div class="row">
-        <div class="column">
-            <h2>Search the database</h2>
-            <p>Discover user-created artworks. Explore this extensive collection based on your interests, utilizing various search criteria.</p>
-        </div>
-
-        <div class="column">
-            <h2>Join the Community</h2>
-            <p>Create an account and connect with fellow artists. Share your expertise by providing ratings and constructive comments.</p>
-        </div>
-
-        <div class="column">
-            <h2>Display Your Artistry</h2>
-            <p>Showcase your own artwork on ArtPulse. Elevate your online presence and contribute to the richness of the artistic tapestry within the platform.</p>
-        </div>
-    </div>
-</div>
-
-<div class="break"></div>
-</body>
-</html>
 {% endblock %}
-    
-    
