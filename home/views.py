@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from .models import Artwork, Comment, UserProfile, Like
+from projects.models import CollaborativeProject
 from .forms import RatingForm, CommentForm, ArtworkForm
 from django.db.models import Q, Count, Avg
 from django.utils.decorators import method_decorator
@@ -34,9 +35,12 @@ def user_profile(request, username):
     average_rating = artworks.aggregate(avg_rating=Avg('rating'))['avg_rating']
     total_critiques = artworks.filter(comments__isnull=False).count()
 
+    collaborative_projects = CollaborativeProject.objects.filter(user=user_profile.user)
+
     context = {
         'user_profile': user_profile,
         'artworks': artworks,
+        'collaborative_projects': collaborative_projects,
         'total_artworks': total_artworks,
         'average_rating': average_rating,
         'total_critiques': total_critiques,
@@ -46,6 +50,7 @@ def user_profile(request, username):
 
 
 def account(request):
+    collaborative_projects = CollaborativeProject.objects.filter(user=request.user)
     artworks = Artwork.objects.all()
 
     user_profile = UserProfile.objects.get(user=request.user)
@@ -62,6 +67,7 @@ def account(request):
         'total_artworks': total_artworks,
         'average_rating': average_rating,
         'total_critiques': total_critiques,
+        'collaborative_projects': collaborative_projects,
     }
 
     return render(request, 'account.html', context)
@@ -131,6 +137,7 @@ def create_artwork(request):
     return render(request, 'create_artwork.html', {'form': form})
 
 
+@login_required
 def delete_artwork(request, artwork_id):
     artwork = Artwork.objects.get(pk=artwork_id)
     if request.method == 'POST':
@@ -139,6 +146,7 @@ def delete_artwork(request, artwork_id):
     return render(request, 'delete_artwork.html', {'artwork': artwork})
 
 
+@login_required
 def update_artwork(request, artwork_id):
     artwork = Artwork.objects.get(pk=artwork_id)
     if request.method == 'POST':
@@ -220,6 +228,9 @@ def contact_form(request):
 @login_required
 def like_artwork(request, artwork_id):
     artwork = get_object_or_404(Artwork, id=artwork_id)
+
+    if not request.user.is_authenticated:
+        messages.error(request, 'You must log in first.')
 
     if request.user in artwork.likes.all():
         # User has already liked, remove the like

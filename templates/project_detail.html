@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+<div class="break"></div>
+<div class="container form-container">
+  <div class="form-container-border">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="row pt-5">
+          <div class="col-md-12">
+            {% if user.collaborativeproject_set.all %}
+            <!-- User has posted a collaborative project -->
+            <div>
+              <h2>{{ user.username }}'s Collaborative Project</h2>
+              <h3>Title: {{ user.collaborativeproject_set.first.title }}</h3>
+              <p>Description: {{ user.collaborativeproject_set.first.description }}</p>
+              
+              <p>Interested Users: {{ user.collaborativeproject_set.first.interested_users.count }}</p>
+              <form method="post" action="{% url 'interested_toggle' project_id=user.collaborativeproject_set.first.id %}">
+                {% csrf_token %}
+                <button type="submit">{% if user in user.collaborativeproject_set.first.interested_users.all %}Not Interested{% else %}Interested{% endif %}</button>
+              </form>
+            </div>
+          {% else %}
+            <!-- User has not posted a collaborative project yet -->
+            <div>
+              <p>This user has not posted a collaborative project yet.</p>
+            </div>
+          {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

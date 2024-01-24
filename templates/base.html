@@ -53,6 +53,10 @@ p {
   font-size: 1rem;
 }
 
+h2 {
+  font-family: "Futura", sans-serif !important;
+}
+
 h5 {
   font-family: "Futura", sans-serif !important;
   font-size: 1rem;
@@ -131,6 +135,36 @@ nav img {
   margin-left: 60px;
 }
 
+@media screen and (max-width: 768px) {
+    .left-column {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        justify-content: center;
+        margin:0 auto;
+    }  
+    .right-column {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        justify-content: center;
+        margin:0 auto;
+    }
+    .list-group {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        justify-content: center;
+        margin:0;
+        padding: 0;
+    }
+    .user-stats {
+        margin-left: 0px;
+        margin: 0 auto;
+        text-align: center;
+    }
+}
+
 /* account (public) */
 
 .profile-picture {
@@ -138,6 +172,14 @@ nav img {
   justify-content: center;
   align-items: center;
   margin-top: 15px;
+}
+
+@media screen and (max-width: 768px){
+  .right-column a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 }
 
 .profile-picture img {
@@ -154,7 +196,7 @@ nav img {
   justify-content: center;
   align-items: left;
   margin-top: 15px;
-  line-height: 40%;
+  line-height: 100%;
 }
 
 .profile {
@@ -170,6 +212,20 @@ nav img {
   display: flex;
   justify-content: space-around;
   margin: 20px;
+}
+@media screen and (max-width: 1200px) {
+  .account-links {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 20px;
+  }
+}
+@media screen and (max-width: 768px) {
+  .account-links a {
+    width: 100%;
+  }
 }
 .account-links a {
   text-decoration: none;
@@ -428,6 +484,14 @@ button:hover {
   border-radius: 5px;
   margin-top: 5px;
   margin-bottom: 5px;
+}
+
+/* projects */
+
+.collaborative-container {
+    padding:20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 24px;
 }
 
 /* messages */

@@ -2,7 +2,6 @@
 
 {% block content %}
 
-
 <div class="break"></div>
     <div class="container profile"> 
         <div class="col-md-12">
@@ -10,7 +9,7 @@
                 <div class="row">
                     <!-- Profile Picture Section -->
                     <div class="col-md-4 profile-picture">
-                        {% if user.userprofile.profile_picture %}
+                        {% if user_userprofile.profile_picture %}
                             <img src="{{ user_profile.profile_picture.url }}" alt="Profile Picture">
                         {% else %}
                             <img src="https://art-pulse.s3.ca-central-1.amazonaws.com/media/blank-profile-picture.webp" alt="Profile Picture">
@@ -18,14 +17,36 @@
                     </div>
 
                     <!-- User Information and Stats Section -->
-                    <div class="col-md-8 stats">
+                    <div class="col-md-4 stats">
                         <h2>{{ user_profile.user.username }}</h2>
                         <p>Total Artworks: {{ total_artworks }}</p>
                         <p>Average Rating: {% if average_rating %}{{ average_rating|floatformat:2 }}{% else %}Not available{% endif %}</p>
                         <p>Total Comments: {{ total_critiques }}</p>
                     </div>
+
+                    <!-- collab -->
+                    <div class="col-md-4 stats">
+                        {% if collaborative_projects %}
+                            <div>
+                                <h2>Collab Available!</h2>
+                                <p>Work on a project together with {{ user_profile.user.username }}:</p>
+                                {% for project in collaborative_projects %}
+                                    <div>
+                                        <p><strong>Project Title:</strong> {{ project.title }}</p>
+                                        <a href="{% url 'project_detail' project_id=project.id %}" class="highlight">Project Details</a>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            <div>
+                                <p>This user has not posted any collaborative projects yet.</p>
+                            </div>
+                        {% endif %}
+                    </div>
                 </div>
             </div>
+
+
 
             <!-- Artwork Cards Section -->
             <div class="row mt-4">

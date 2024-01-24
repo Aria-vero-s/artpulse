@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'home',
     'artpulse',
+    'projects',
 ]
 
 MIDDLEWARE = [

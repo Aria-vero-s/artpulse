@@ -7,6 +7,7 @@
     <div class="left-column">
         <ul class="list-group">
             <li class="list-group-item"><a class="highlight" href="{% url 'create_artwork' %}">Create Artwork</a></li>
+            <li class="list-group-item"><a class="highlight" href="{% url 'create_project' %}">Create Project</a></li>
             <li class="list-group-item"><a href="{% url 'user_profile' username=user.username %}">View Public Profile</a></li>
             <li class="list-group-item"><a href="{% url 'account_email' %}">Change E-mail</a></li>
             <li class="list-group-item"><a href="{% url 'delete_account' %}">Delete My Account</a></li>
@@ -25,7 +26,7 @@
                             <img src="https://art-pulse.s3.ca-central-1.amazonaws.com/media/blank-profile-picture.webp" alt="Profile Picture">
                         {% endif %}
                     </div>
-                    <div class="ml-5 mt-2">
+                    <div class="mt-2">
                         <a href="{% url 'change_profile_picture' %}">Change Profile Picture</a>
                     </div>
                 </div>
@@ -39,8 +40,45 @@
                 </div>
             </div>
 
+            <div class="break"></div>
+            <div class="row">
+                <div class="col-md-12">
+                    {% if collaborative_projects %}
+                    <div class="col-md-12 collaborative-container">
+                            <div>
+                                <h3>Your collaborative project</h3>
+                                <hr>
+                                {% for project in collaborative_projects %}
+                                    <div>
+                                        <h3><strong>Project Title:</strong> {{ project.title }}</h3>
+                                        <p><strong>Description:</strong> {{ project.description }}</p>
+                                        <hr>
+                                        <p>Interested Users: {{ project.interested_users.count }}</p>
+                                            {% if project.interested_users.count > 0 %}
+                                            <ul>
+                                                {% for interested_user in project.interested_users.all %}
+                                                <li><a href="{% url 'user_profile' username=interested_user.username %}">{{ interested_user.username }}</a></li>
+                                                {% endfor %}
+                                            </ul>
+                                        {% else %}
+                                            <p>No one is interested yet.</p>
+                                        {% endif %}
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    {% else %}
+                        <div>
+                            <p>You have not posted any collaborative projects yet.</p>
+                            <a href="{% url 'create_project' %}"><button>Post a project</button></a>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+
             <!-- Artwork Cards Section -->
             <div class="row mt-4">
+                {% if user.artwork_set.all %}
                 {% for artwork in user.artwork_set.all %}
                     <div class="col-md-4">
                         <div class="card">
@@ -73,6 +111,12 @@
                         </div>
                     </div>
                 {% endfor %}
+                {% else %}
+                    <div class="col-md-12">
+                        <p>You have not posted any artworks yet.</p>
+                        <a href="{% url 'create_artwork' %}"><button>Post an artwork</button></a>
+                    </div>
+                {% endif %}
             </div>
         </div>
         <div id="myModal" class="modal">
