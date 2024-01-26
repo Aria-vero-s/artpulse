@@ -81,11 +81,9 @@
         {% for project in collaborative_projects %} 
             <div class="container mt-4">
                 <div class="row collab">
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         <h2><strong>{{ project.title }}</strong></h2>
                         <p>{{ project.description }}</p>
-                    </div>
-                    <div class="col-md-6">
                         {% if project.interested_users.count > 0 %}
                             <p>Interesed: {{ project.interested_users.count }}</p>
                         {% else %}
