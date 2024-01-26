@@ -46,21 +46,22 @@
                             <h5 class="card-title">{{ artwork.title }}</h5>
                             <p class="card-text">
                               <strong>Artist:</strong>
-                              <a
-                                href="{% url 'user_profile' username=artwork.artist.username %}"
-                                >{{ artwork.artist.username }}</a
-                              >
+                              <a href="{% url 'user_profile' username=artwork.artist.username %}">{{ artwork.artist.username }}</a>
                             </p>
                           </div>
                           <div class="col d-flex justify-content-end">
-                            <a class="card-text mr-2" href="{% url 'artwork_detail' artwork.id %}"><i class="fa-regular fa-message"></i></a>
+                            <a class="card-text mr-2" href="{% url 'artwork_detail' artwork.id %}"><i class="d-block fa-regular fa-message"></i></a>
                               <a class="card-text" href="{% url 'like_artwork' artwork.id %}">
-                                <a class="card-text like-button" data-artwork-id="{{ artwork.id }}">
+                                {% if user.is_authenticated %}
+                                  <a class="card-text like-button" data-artwork-id="{{ artwork.id }}">
                                   {% if request.user in artwork.likes.all %}
-                                      <i class="fa-solid fa-heart"></i>
+                                      <i class="d-block fa-solid fa-heart"></i>
                                   {% else %}
-                                      <i class="fa-regular fa-heart"></i>
+                                      <i class="d-block fa-regular fa-heart"></i>
                                   {% endif %}
+                                {% else %}
+                                  <a href="{% url 'account_login' %}" class="card-text"><i class="d-block fa-regular fa-heart"></i></a>
+                                {% endif %}
                               </a>
                             </a>
                           </div>

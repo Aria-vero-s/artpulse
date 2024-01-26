@@ -63,13 +63,17 @@
                                     <div class="col d-flex justify-content-end">
                                         <a class="card-text mr-2" href="{% url 'artwork_detail' artwork.id %}"><i class="fa-regular fa-message"></i></a>
                                         <a class="card-text" href="{% url 'like_artwork' artwork.id %}">
+                                        {% if user.is_authenticated %}
                                           <a class="card-text like-button" data-artwork-id="{{ artwork.id }}">
                                             {% if request.user in artwork.likes.all %}
                                                 <i class="fa-solid fa-heart"></i>
                                             {% else %}
                                                 <i class="fa-regular fa-heart"></i>
                                             {% endif %}
-                                        </a>
+                                            </a>
+                                        {% else %}
+                                            <a class="card-text like-button pt-1" href="{% url 'account_login' %}"><i class="d-block fa-regular fa-heart"></i></a>
+                                        {% endif %}
                                       </a>
                                     </div>
                                 </div>
