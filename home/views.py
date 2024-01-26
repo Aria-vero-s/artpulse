@@ -1,12 +1,12 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
-from .models import Artwork, Comment, UserProfile, Like
+from .models import Artwork, Comment, UserProfile, Like, Message
 from projects.models import CollaborativeProject
-from .forms import RatingForm, CommentForm, ArtworkForm
+from .forms import RatingForm, CommentForm, ArtworkForm, MessageForm
 from django.db.models import Q, Count, Avg
 from django.utils.decorators import method_decorator
 from django.views import View
-from .forms import ProfilePictureForm
+from .forms import ProfilePictureForm, MessageForm
 from allauth.account.views import LogoutView
 from django.contrib.auth.models import User
 from allauth.account.adapter import get_adapter
@@ -249,3 +249,42 @@ def like_artwork(request, artwork_id):
     }
 
     return JsonResponse(response_data)
+
+
+@login_required
+def send_message(request, receiver_id):
+    receiver = User.objects.get(id=receiver_id)
+
+    if request.method == 'POST':
+        form = MessageForm(request.POST)
+        if form.is_valid():
+            content = form.cleaned_data['content']
+            Message.objects.create(sender=request.user, receiver=receiver, content=content)
+            return redirect('user_profile', username=receiver.username)
+    else:
+        form = MessageForm()
+
+    return render(request, 'send_message.html', {'form': form, 'receiver': receiver})
+
+
+@login_required
+def view_messages(request):
+    messages = Message.objects.filter(receiver=request.user).order_by('-timestamp')
+    return render(request, 'view_messages.html', {'messages': messages})
+
+
+@login_required
+def send_message_interested(request, project_id, interested_user_id):
+    project = CollaborativeProject.objects.get(id=project_id)
+    interested_user = project.interested_users.get(id=interested_user_id)
+
+    if request.method == 'POST':
+        form = MessageForm(request.POST)
+        if form.is_valid():
+            content = form.cleaned_data['content']
+            Message.objects.create(sender=request.user, receiver=interested_user, content=content)
+            return redirect('project_detail', project_id=project_id)
+    else:
+        form = MessageForm()
+
+    return render(request, 'send_message_interested.html', {'form': form, 'interested_user': interested_user})

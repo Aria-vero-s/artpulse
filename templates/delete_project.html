@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="break"></div>
+<div class="container form-container">
+  <div class="form-container-border">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="row">
+          <div class="col-md-12">
+            
+            <h2>Delete Project</h2>
+            <p>Are you sure you want to delete the project "{{ project.title }}"?</p>
+            <form method="post">
+              {% csrf_token %}
+              <button type="submit">Yes, delete</button>
+            </form>
+            <a href="{% url 'user_profile' username=request.user.username %}">Cancel</a>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

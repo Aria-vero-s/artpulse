@@ -8,6 +8,7 @@
         <ul class="list-group">
             <li class="list-group-item"><a class="highlight" href="{% url 'create_artwork' %}">Create Artwork</a></li>
             <li class="list-group-item"><a class="highlight" href="{% url 'create_project' %}">Create Project</a></li>
+            <li class="list-group-item"><a href="{% url 'view_messages' %}">View Messages</a></li>
             <li class="list-group-item"><a href="{% url 'user_profile' username=user.username %}">View Public Profile</a></li>
             <li class="list-group-item"><a href="{% url 'account_email' %}">Change E-mail</a></li>
             <li class="list-group-item"><a href="{% url 'delete_account' %}">Delete My Account</a></li>
@@ -15,7 +16,7 @@
     </div>
 
     <!-- Right Column: Profile Information and Artwork Cards -->
-    <div class="right-column">
+    <div class="right-column white-background">
         <div class="container">
             <div class="row">
                 <div class="col-md-4">
@@ -41,40 +42,6 @@
             </div>
 
             <div class="break"></div>
-            <div class="row">
-                <div class="col-md-12">
-                    {% if collaborative_projects %}
-                    <div class="col-md-12 collaborative-container">
-                            <div>
-                                <h3>Your collaborative project</h3>
-                                <hr>
-                                {% for project in collaborative_projects %}
-                                    <div>
-                                        <h3><strong>Project Title:</strong> {{ project.title }}</h3>
-                                        <p><strong>Description:</strong> {{ project.description }}</p>
-                                        <hr>
-                                        <p>Interested Users: {{ project.interested_users.count }}</p>
-                                            {% if project.interested_users.count > 0 %}
-                                            <ul>
-                                                {% for interested_user in project.interested_users.all %}
-                                                <li><a href="{% url 'user_profile' username=interested_user.username %}">{{ interested_user.username }}</a></li>
-                                                {% endfor %}
-                                            </ul>
-                                        {% else %}
-                                            <p>No one is interested yet.</p>
-                                        {% endif %}
-                                    </div>
-                                {% endfor %}
-                            </div>
-                        </div>
-                    {% else %}
-                        <div>
-                            <p>You have not posted any collaborative projects yet.</p>
-                            <a href="{% url 'create_project' %}"><button>Post a project</button></a>
-                        </div>
-                    {% endif %}
-                </div>
-            </div>
 
             <!-- Artwork Cards Section -->
             <div class="row mt-4">
@@ -119,10 +86,46 @@
                 {% endif %}
             </div>
         </div>
-        <div id="myModal" class="modal">
-            <span class="close-btn" onclick="closeModal()">&times;</span>
-            <img class="modal-content" id="modalImage">
-        </div>
+    </div>
+
+    <!-- collab -->
+    {% if collaborative_projects %}
+        {% for project in collaborative_projects %}
+            <div class="right-column mt-5 white-background"> 
+                <div class="container">
+                    <div class="row collab">
+                        <h4>Project Title <strong>{{ project.title }}</strong></h4>
+                        <td class="table-cell"><a href="{% url 'update_project' project_id=project.id %}"><i class="fa-regular fa-edit"></i> Update</a></td>
+                        <td class="table-cell"><a href="{% url 'delete_project' project_id=project.id %}"><i class="fa-regular fa-trash-alt"></i> Delete</a></td>
+                        <p class="mt-4">Interested Users:</p>
+                        {% if project.interested_users.count > 0 %}
+                            {% for interested_user in project.interested_users.all %}
+                                <div class="flex-direction">
+                                    <table class="table">
+                                        <tbody>
+                                            <tr>
+                                                <td class="table-cell"><a href="{% url 'user_profile' username=interested_user.username %}">{{ interested_user.username }} (Visit Profile)</a></td>
+                                                <td class="table-cell"><a href="{% url 'send_message_interested' project_id=project.id interested_user_id=interested_user.id %}"><i class="fa-regular fa-envelope"></i> Message</a></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            {% endfor %}
+                        {% else %}
+                            <p>No one is interested yet.</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>You have not posted any collaborative projects yet.</p>
+        <a href="{% url 'create_project' %}"><button>Post a project</button></a>
+    {% endif %}
+
+    <div id="myModal" class="modal">
+        <span class="close-btn" onclick="closeModal()">&times;</span>
+        <img class="modal-content" id="modalImage">
     </div>
 </div>
 

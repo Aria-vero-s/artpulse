@@ -1,5 +1,6 @@
 from django import forms
-from .models import Artwork, UserProfile, ContactMessage
+from .models import Artwork, UserProfile, ContactMessage, Message
+
 
 class RatingForm(forms.Form):
     rating = forms.IntegerField(min_value=1, max_value=5)
@@ -21,3 +22,12 @@ class ContactForm(forms.ModelForm):
     class Meta:
         model = ContactMessage
         fields = ['name', 'email', 'message']
+
+
+class MessageForm(forms.ModelForm):
+    class Meta:
+        model = Message
+        fields = ['content']
+        widgets = {
+            'content': forms.Textarea(attrs={'rows': 4}),
+        }

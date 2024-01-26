@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="break"></div>
+<div class="container form-container">
+  <div class="form-container-border">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="row">
+          <div class="col-md-12">
+            
+            <h2>Your Messages</h2>
+  
+            {% if messages %}
+              <ul>
+                {% for message in messages %}
+                  <li>{{ message.sender.username }} ({{ message.timestamp }}): {{ message.content }}</li>
+                {% endfor %}
+              </ul>
+            {% else %}
+              <p>No messages yet.</p>
+            {% endif %}
+            <a href="{% url 'account' %}">Go back</a>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="break"></div>
+<div class="container form-container">
+  <div class="form-container-border">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="row">
+          <div class="col-md-12">
+            
+            <h2>Send a Message to {{ receiver.username }}</h2>
+
+            <form method="post" action="">
+              {% csrf_token %}
+              {{ form.as_p }}
+              <button type="submit">Send Message</button>
+            </form>
+            
+            <a href="{% url 'view_messages' %}">View Messages</a>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

@@ -48,6 +48,7 @@
                               <strong>Artist:</strong>
                               <a href="{% url 'user_profile' username=artwork.artist.username %}">{{ artwork.artist.username }}</a>
                             </p>
+                            <a href="{% url 'artwork_detail' artwork.id %}" class="highlight">Artwork Details</a>
                           </div>
                           <div class="col d-flex justify-content-end">
                             <a class="card-text mr-2" href="{% url 'artwork_detail' artwork.id %}"><i class="d-block fa-regular fa-message"></i></a>

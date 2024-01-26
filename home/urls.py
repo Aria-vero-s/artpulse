@@ -18,4 +18,7 @@ urlpatterns = [
     path('artwork/<int:artwork_id>/', views.ArtworkDetailView.as_view(), name='artwork_detail'),
     path('contact_form/', views.contact_form, name='contact_form'),
     path('like/<int:artwork_id>/', views.like_artwork, name='like_artwork'),
+    path('send_message/<int:receiver_id>/', views.send_message, name='send_message'),
+    path('view_messages/', views.view_messages, name='view_messages'),
+    path('send_message_interested/<int:project_id>/<int:interested_user_id>/', views.send_message_interested, name='send_message_interested'),
 ]

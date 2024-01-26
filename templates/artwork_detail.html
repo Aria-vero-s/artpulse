@@ -1,72 +1,9 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <style>
-        /* .account-panel {
-            background-color: #f2f2f2;
-            padding: 20px;
-            text-align: center;
-        }
 
-        .account-links {
-            display: flex;
-            justify-content: space-around;
-            margin-top: 20px;
-        }
-
-        .account-links a {
-            text-decoration: none;
-            color: #333;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            transition: background-color 0.3s;
-        }
-
-        .account-links li {
-            list-style: none;
-        }
-
-        .account-links a:hover {
-            background-color: #ddd;
-        }
-
-        .profile-panel {
-            background-color: #f2f2f2;
-            padding: 20px;
-            text-align: center;
-        }
-
-        .profile-picture {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            object-fit: cover;
-        }
-
-        .profile-info {
-            margin-top: 20px;
-        } */
-
-
-    </style>
 </head>
 <body>
-
-                    <!-- <div class="col-md-12 stats">
-                        <h2>Title: {{ artwork.title }}</h2>
-                        <h2>Artist: <a href="{% url 'user_profile' username=artwork.artist.username %}">{{ artwork.artist.username }}</a></h2>
-                        <img src="{{ artwork.image.url }}" alt="{{ artwork.title }}" onclick="openModal('{{ artwork.image.url }}', '{{ artwork.title }}')">
-                        <p style="margin-top: 20px;">Category: {{ artwork.category }}</p>
-                        <p>Rating: {{ artwork.rating }}</p>
-                    </div>
-                </div>
-            </div> -->
-
-
-            <!-- <div class="row mt-4">
-
-                    <div class="col-md-12"> -->
                         
 <div class="break"></div>
 <div class="container details"> 
@@ -125,51 +62,5 @@
     <span class="close-btn" onclick="closeModal()">&times;</span>
     <img class="modal-content" id="modalImage">
 </div>
-<!-- 
-
-<div class="account-panel">
-    <div class="gallery">
-        <div class="artworks-container" style="display:initial;">
-            <h2>Title: {{ artwork.title }}</h2>
-            <h2>Artist: <a href="{% url 'user_profile' username=artwork.artist.username %}">{{ artwork.artist.username }}</a></h2>
-            <img src="{{ artwork.image.url }}" alt="{{ artwork.title }}" onclick="openModal('{{ artwork.image.url }}', '{{ artwork.title }}')">
-            <p style="margin-top: 20px;">Category: {{ artwork.category }}</p>
-            <p>Rating: {{ artwork.rating }}</p>
-        </div>
-        <div class="artworks-container" style="margin: 0; padding:0;">
-            <div class="artwork" style="width:70vw;">
-                <h3>Description:</h3>
-                <p style="width:calc(80%); margin: 0 auto; padding:30px;">{{ artwork.description }}</p>
-                
-                <form method="post" action="{% url 'rate_artwork' artwork.id %}">
-                    {% csrf_token %}
-                    <h3>Rate this artwork:</h3>
-                    <input type="number" name="rating" min="1" max="5" placeholder="5" required> /5
-                    <br>
-                    <button type="submit">Submit Rating</button>
-                </form>
-
-                <h3>Comments:</h3>
-                <ul style="display:initial;">
-                    {% for comment in artwork.comments.all %}
-                        <li><strong style="font-weight:bold">{{ comment.user.username }}</strong>: {{ comment.text }}</li>
-                        <br style="margin-bottom:10px;">
-                    {% endfor %}
-                </ul>
-
-                <form method="post" action="{% url 'add_comment' artwork.id %}">
-                    {% csrf_token %}
-                    <label for="comment">Add a comment:</label>
-                    <textarea name="comment" rows="4" cols="50" required></textarea>
-                    <button type="submit">Add Comment</button>
-                </form>
-            </div>
-        </div>
-    </div>
-
-
-    <a href="{% url 'user_profile' username=artwork.artist.username %}">Back to Artist Profile</a>
-    
-</div> -->
 
 {% endblock %}

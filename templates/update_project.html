@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="break"></div>
+<div class="container form-container">
+  <div class="form-container-border">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="row">
+          <div class="col-md-12">
+            
+              <h2>Update Project</h2>
+              <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit">Update Project</button>
+              </form>
+              <a href="{% url 'user_profile' username=request.user.username %}">Cancel</a>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
