@@ -19,9 +19,8 @@
                     <!-- User Information and Stats Section -->
                     <div class="col-md-8 stats">
                         <h2>{{ user_profile.user.username }}</h2>
-                        <p>Total Artworks: {{ total_artworks }}</p>
-                        <p>Average Rating: {% if average_rating %}{{ average_rating|floatformat:2 }}{% else %}Not available{% endif %}</p>
-                        <p>Total Comments: {{ total_critiques }}</p>
+                        <p><i class="fa-solid fa-palette"></i> Total Artworks: {{ total_artworks }}</p>
+                        <p><i class="fa-regular fa-message"></i> Total Comments: {{ total_critiques }}</p>
                         <a href="{% url 'send_message' receiver_id=user_profile.user.id %}">Send Message</a>
                     </div>
                 </div>

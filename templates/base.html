@@ -152,6 +152,10 @@ nav img {
   margin-left: 60px;
 }
 
+.user-stats i {
+  color:#999;
+}
+
 @media screen and (max-width: 768px) {
     .left-column {
         display: flex;
@@ -214,6 +218,10 @@ nav img {
   align-items: left;
   margin-top: 15px;
   line-height: 100%;
+}
+
+.stats i {
+  color:#999;
 }
 
 .profile {
@@ -761,7 +769,7 @@ button:hover {
             <div class="col-md-4 right-column-footer">
                 <ul class="list-unstyled">
                     <h5>Account</h5>
-                    <li><a href="{% url 'account_signup' %}">Create an account</a></li>
+                    <li><a class="highlight" href="{% url 'account_signup' %}">Sign up</a></li>
                     <li><a href="{% url 'account_login' %}">Sign in</a></li>
                     <li><a href="{% url 'account' %}">Account</a></li>
                 </ul>
@@ -769,9 +777,9 @@ button:hover {
             <div class="col-md-4 right-column-footer">
                 <ul class="list-unstyled">
                     <h5>Links</h5>
-                    <li><a href="{% url 'index' %}">Home</a></li>
-                    <li><a href="{% url 'index' %}#about">About</a></li>
-                    <li><a href="{% url 'contact_form' %}">Contact</a></li>
+                    <li><a href="www.facebook.com"><i class="fa-brands fa-facebook"></i> Facebook</a></li>
+                    <li><a href="www.twitter.com"><i class="fa-brands fa-twitter"></i> Twitter</a></li>
+                    <li><a href="www.instagram.com"><i class="fa-brands fa-instagram"></i> Instagram</a></li>
                 </ul>
             </div>
         </div>

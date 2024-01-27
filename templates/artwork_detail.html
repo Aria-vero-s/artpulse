@@ -25,7 +25,7 @@
                     </div>
                     <hr>
                     <div class="artwork-details mt-3">
-                        <p class="label-orange"><i class="fa-solid fa-star"></i>{{ artwork.rating }}</p>
+                        <p class="label-orange"><i class="fa-solid fa-star"></i>{{ artwork.critiques }}</p>
                         <p class="label-blue">
                             <a class="card-text like-button" data-artwork-id="{{ artwork.id }}">
                                 {% if request.user in artwork.likes.all %}
