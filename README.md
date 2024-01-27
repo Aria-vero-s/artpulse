@@ -1,6 +1,6 @@
 # ArtPulse Django Project
 
-![ArtGallery Logo](/media/mockup.png)
+![ArtGallery Logo](/media/mockup2.png)
 
 ## Introduction
 
@@ -19,24 +19,56 @@ This Django project is an ArtGallery platform that allows users to explore, shar
 
 ### Artwork Search
 
-- Users can search for artworks using various filters such as title, artist name, description keywords, category, and rating score.
+- Users can search for artworks using various filters such as title, artist name, description keywords, and category.
+
+Here's an excerpt from the `search_artworks` view:
+
+```python
+# ... (other imports)
+from django.db.models import Q
+
+def search_artworks(request):
+    query = request.GET.get('q', '')
+    category = request.GET.get('category', '')
+
+    artworks = Artwork.objects.all()
+    
+    if query:
+        artworks = Artwork.objects.filter(
+            Q(title__icontains=query) | 
+            Q(artist__username__icontains=query) | 
+            Q(description__icontains=query)
+        )
+    if category:
+        artworks = artworks.filter(category=category)
+
+    return render(request, 'index.html', {'artworks': artworks, 'query': query, 'category': category})
+```
 
 ### Artwork Browsing
 
 - Users can browse artworks published by other users.
 - Users can click on the "show more" button to read details about the artwork, leave a rating score, and add comments.
 
+#### Likes and Comments
+
+- Users can like artworks and leave comments.
+
 ### Full-Screen Image View
 
 - Clicking on an artwork allows users to view the image in full screen.
 
-### User Authentication
+### Collaborative Project
 
-- Users must create an account to publish artworks, and leave comments.
+- Users can connect with other artists through collaborative projects.
 
-### Anonymous Ratings
-
-- Anonymous users can rate artworks but cannot leave comments.
+#### CollaborativeProject Model
+- Represents a collaborative project initiated by a user.
+- Fields:
+  - `user`: ForeignKey to the User model, representing the project creator.
+  - `title`: CharField for the project title.
+  - `description`: TextField for a detailed project description.
+  - `interested_users`: ManyToManyField linking to the User model, allowing multiple users to express interest in the project.
 
 ### User Profile Management
 
@@ -44,14 +76,35 @@ This Django project is an ArtGallery platform that allows users to explore, shar
 - Users can change their profile photo.
 - Users can view their statistics, including total artworks published, average rating, and total comments received.
 
+### Messaging system
+
+- Users can send private messages to each other.
+- Users can send messages expressing interest in collaborative projects.
+
+#### Message Model
+- Represents a private message between two users.
+- Fields:
+  - `sender`: ForeignKey to the User model, representing the sender of the message.
+  - `receiver`: ForeignKey to the User model, representing the receiver of the message.
+  - `content`: TextField for the message content.
+  - `timestamp`: DateTimeField for the message timestamp.
+
 ### Ethos Section
 
 - The homepage features an "Ethos" section highlighting the benefits of the website, such as connecting with other artists, sharing artworks, and discovering new artworks and people.
 
 ## UI Design
 
-- The design was created on Figma, inspired by the painting "Icarus" by Henri Matisse. [ArtPulse Figma](https://www.figma.com/file/Dz2mJ6i9WQIjLqTSfUqak9/Untitled?type=design&node-id=0%3A4&mode=design&t=rg41oUqYPTEZzblk-1)
-- Colors for the design were based on the chosen painting.
+![ArtGallery Logo](/media/artpulse.png)
+
+- The wireframe and prototype was created on Figma: [ArtPulse Figma](https://www.figma.com/file/Dz2mJ6i9WQIjLqTSfUqak9/Untitled?type=design&node-id=0%3A4&mode=design&t=rg41oUqYPTEZzblk-1)
+- The logo was created by me using Procreate.
+- The main Font used is Futura:
+```
+@import url("https://fonts.googleapis.com/css2?family=Futura&display=swap");
+
+@import url("https://fonts.googleapis.com/css2?family=Futura+Condensed&display=swap");
+```
 
 ## Technologies Used
 
@@ -59,6 +112,7 @@ This Django project is an ArtGallery platform that allows users to explore, shar
 - JavaScript
 - HTML
 - CSS
+- Bootstrap
 - Git (Version Control)
 - Visual Studio Code (IDE)
 - Heroku (Cloud Deployment)
